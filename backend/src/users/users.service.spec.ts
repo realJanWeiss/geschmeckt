@@ -2,7 +2,6 @@ import * as bcrypt from 'bcrypt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { UserEntity } from './entities/user.entity';
-import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserRequestDTO } from './dtos/request/user.request.dto';
 import { BadRequestException } from '@nestjs/common';
@@ -31,9 +30,9 @@ describe('UsersService', () => {
     }).compile();
 
     service = module.get<UsersService>(UsersService);
-    userRepository = module.get<Repository<UserEntity>>(
+    userRepository = module.get<ReturnType<typeof mockUserRepository>>(
       getRepositoryToken(UserEntity),
-    ) as unknown as ReturnType<typeof mockUserRepository>;
+    );
   });
 
   describe('createUser', () => {
