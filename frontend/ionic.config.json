@@ -1,0 +1,7 @@
+{
+  "name": "Geschmeckt",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
