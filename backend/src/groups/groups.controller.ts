@@ -36,4 +36,13 @@ export class GroupsController {
   ): Promise<void> {
     return this.groupsService.deleteGroup(groupId, user.id);
   }
+
+  @Post('/:groupId/join')
+  @UseGuards(Authguard)
+  public async join(
+    @Param('groupId') groupId: string,
+    @GetUser() user: UserEntity,
+  ): Promise<GroupResponseDTO> {
+    return this.groupsService.addUserToGroup(user.id, groupId);
+  }
 }

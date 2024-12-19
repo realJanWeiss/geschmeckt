@@ -24,12 +24,12 @@ export class UsersService {
     if (foundUser) {
       throw new BadRequestException('The E-mail address already has a user.');
     }
-    return (
-      await this.userRepository.save({
-        ...user,
-        password: await password_hash(user.password),
-      })
-    ).mapToResponseDTO();
+    const userEntity = this.userRepository.create({
+      ...user,
+      password: await password_hash(user.password),
+    });
+    await this.userRepository.insert(userEntity);
+    return userEntity.mapToResponseDTO();
   }
 
   async getUserEntityById(id: string): Promise<UserEntity> {

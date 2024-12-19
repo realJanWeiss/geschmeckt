@@ -5,11 +5,13 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
 import { UserResponseDTO } from '../dtos/response/user.request.dto';
+import { RatingEntity } from '@/ratings/entities/rating.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -34,6 +36,9 @@ export class UserEntity {
     cascade: true,
   })
   groups: GroupEntity[];
+
+  @OneToMany(() => RatingEntity, (rating) => rating.user)
+  ratings: RatingEntity[];
 
   @CreateDateColumn()
   created_at: Date;

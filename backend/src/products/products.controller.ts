@@ -16,11 +16,11 @@ export class ProductsController {
   @Get(':ean')
   public async getProduct(
     @Param('ean') ean: string,
-  ): Promise<ProductResponseDTO> {
-    const product = await this.productsService.getProductByEan(ean);
-    if (!product) {
+  ): Promise<ProductResponseDTO[]> {
+    const products = await this.productsService.getProductsByEan(ean);
+    if (!products) {
       throw new NotFoundException();
     }
-    return product;
+    return products;
   }
 }

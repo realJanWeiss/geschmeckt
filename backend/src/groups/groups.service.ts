@@ -10,6 +10,7 @@ import { UserEntity } from '@/users/entities/user.entity';
 import { GroupRequestDTO } from './dtos/request/group.request.dto';
 import { UsersService } from '@/users/users.service';
 import { GroupResponseDTO } from './dtos/response/group.response.dto';
+import { GroupNotFoundException } from './errors';
 
 @Injectable()
 export class GroupsService {
@@ -21,12 +22,12 @@ export class GroupsService {
     private readonly usersService: UsersService,
   ) {}
 
-  private async getGroupEntity(groupId: string): Promise<GroupEntity> {
+  async getGroupEntity(groupId: string): Promise<GroupEntity> {
     const group = await this.groupRepository.findOne({
       where: { id: groupId },
     });
     if (!group) {
-      throw new NotFoundException('Group not found');
+      throw new GroupNotFoundException();
     }
     return group;
   }
@@ -60,11 +61,15 @@ export class GroupsService {
     await this.groupRepository.delete(groupId);
   }
 
-  async addUserToGroup(userId: string, groupId: string): Promise<void> {
+  async addUserToGroup(
+    userId: string,
+    groupId: string,
+  ): Promise<GroupResponseDTO> {
     const user = await this.usersService.getUserEntityById(userId);
     const group = await this.getGroupEntity(groupId);
 
     user.groups.push(group);
     await this.userRepository.save(user);
+    return group.mapToResponseDTO();
   }
 }

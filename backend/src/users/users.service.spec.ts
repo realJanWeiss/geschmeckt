@@ -9,7 +9,8 @@ import { BadRequestException } from '@nestjs/common';
 
 const mockUserRepository = () => ({
   findOneBy: jest.fn(),
-  save: jest.fn(),
+  create: jest.fn(),
+  insert: jest.fn(),
 });
 
 jest.mock('bcrypt');
@@ -42,32 +43,36 @@ describe('UsersService', () => {
       password: 'Password123!',
     };
 
-    const createdUser = new UserEntity(createUserDto.email);
-    createdUser.id = '1';
-    createdUser.name = createUserDto.name;
-
     it(`should create and return a user when user doesn't exist`, async () => {
       (bcrypt.hash as jest.Mock).mockResolvedValue('hashedPassword');
 
       userRepository.findOneBy.mockResolvedValue(null);
-      userRepository.save.mockResolvedValue(createdUser);
+      const createdUser = new UserEntity(createUserDto.email);
+      createdUser.name = createUserDto.name;
+      createdUser.password = 'hashedPassword';
+      userRepository.create.mockReturnValue(createdUser);
+      userRepository.insert.mockImplementation(() => {
+        createdUser.id = '1';
+        return Promise.resolve({ identifiers: [{ id: '1' }] });
+      });
 
       const result = await service.createUser(createUserDto);
 
       expect(userRepository.findOneBy).toHaveBeenCalledWith({
         email: createUserDto.email,
       });
-      expect(userRepository.save).toHaveBeenCalledWith({
-        name: createUserDto.name,
-        email: createUserDto.email,
-        password: 'hashedPassword',
-      });
+      expect(userRepository.insert).toHaveBeenCalledWith(createdUser);
 
-      expect(result).toEqual(createdUser);
+      expect(result).toEqual({
+        email: 'john@example.com',
+        id: '1',
+        name: 'John Doe',
+      });
     });
 
     it(`should throw BadRequestException when user already exists`, () => {
-      userRepository.findOneBy.mockResolvedValue(createdUser);
+      const existingUser = new UserEntity(createUserDto.email);
+      userRepository.findOneBy.mockResolvedValue(existingUser);
       expect(service.createUser(createUserDto)).rejects.toThrow(
         BadRequestException,
       );
