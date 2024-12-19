@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
-import { UsersService } from 'src/users/users.service';
-import { UserRequestDTO } from 'src/users/dtos/request/user.request.dto';
-import { password_validate } from 'src/users/password.utils';
+import { UsersService } from '@/users/users.service';
+import { UserRequestDTO } from '@/users/dtos/request/user.request.dto';
+import { password_validate } from '@/users/password.utils';
 import { AuthenticationError } from './errors';
 
 @Injectable()

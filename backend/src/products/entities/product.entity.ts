@@ -9,4 +9,11 @@ export class ProductEntity {
 
   @Column()
   name: string;
+
+  mapToResponseDTO() {
+    return {
+      ean: this.ean,
+      name: this.name,
+    };
+  }
 }

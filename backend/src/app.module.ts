@@ -9,6 +9,8 @@ import { ProductsModule } from './products/products.module';
 import { ProductEntity } from './products/entities/product.entity';
 import { UserEntity } from './users/entities/user.entity';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { GroupsModule } from './groups/groups.module';
+import { GroupEntity } from './groups/entities/group.entity';
 
 @Module({
   imports: [
@@ -19,7 +21,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
       username: 'root',
       password: '',
       database: 'geschmeckt',
-      entities: [UserEntity, ProductEntity],
+      entities: [UserEntity, ProductEntity, GroupEntity],
       synchronize: true,
     }),
     ServeStaticModule.forRoot({
@@ -29,6 +31,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
     UsersModule,
     ProductsModule,
     AuthenticationModule,
+    GroupsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,10 +1,14 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { UserBaseDTO } from './dtos/base/user.base.dto';
 import { UserRequestDTO } from './dtos/request/user.request.dto';
-import { password_genSalt, password_hash } from './password.utils';
+import { password_hash } from './password.utils';
+import { UserResponseDTO } from './dtos/response/user.request.dto';
 
 @Injectable()
 export class UsersService {
@@ -13,21 +17,31 @@ export class UsersService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  public async createUser(user: UserRequestDTO): Promise<UserBaseDTO> {
+  public async createUser(user: UserRequestDTO): Promise<UserResponseDTO> {
     const foundUser = await this.userRepository.findOneBy({
       email: user.email,
     });
     if (foundUser) {
       throw new BadRequestException('The E-mail address already has a user.');
     }
-    return await this.userRepository.save({
-      email: user.email,
-      password: await password_hash(user.password, await password_genSalt()),
-    });
+    return (
+      await this.userRepository.save({
+        ...user,
+        password: await password_hash(user.password),
+      })
+    ).mapToResponseDTO();
   }
 
-  public async getUserById(id: string): Promise<UserEntity | null> {
-    return await this.userRepository.findOne({ where: { id } });
+  async getUserEntityById(id: string): Promise<UserEntity> {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
+  }
+
+  public async getUserById(id: string): Promise<UserResponseDTO> {
+    return (await this.getUserEntityById(id)).mapToResponseDTO();
   }
 
   public async deleteUserById(id: string): Promise<void> {

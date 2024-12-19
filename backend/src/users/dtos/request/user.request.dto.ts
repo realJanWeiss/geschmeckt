@@ -1,8 +1,12 @@
 import { IsStrongPassword } from 'class-validator';
 import { UserBaseDTO } from '../base/user.base.dto';
-import { PickType } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 
-export class UserRequestDTO extends PickType(UserBaseDTO, ['email'] as const) {
+export class UserRequestDTO extends PickType(UserBaseDTO, [
+  'name',
+  'email',
+] as const) {
+  @ApiProperty({ minLength: 8, example: 'Password123!' })
   @IsStrongPassword({
     minLength: 8,
     minUppercase: 1,

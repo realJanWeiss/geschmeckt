@@ -17,6 +17,9 @@
     "strictBindCallApply": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["jsdom"]
+    "types": ["jsdom", "jest"],
+    "paths": {
+      "@/*": ["src/*"]
+    }
   }
 }

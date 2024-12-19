@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from './entities/product.entity';
 import { Repository } from 'typeorm';
@@ -13,14 +13,17 @@ export class ProductsService implements IProductService {
     private readonly productRepository: Repository<ProductEntity>,
   ) {}
 
-  public getProductByEan(ean: string): Promise<ProductResponseDTO | null> {
-    return this.productRepository.findOneBy({ ean });
+  public async getProductByEan(ean: string): Promise<ProductResponseDTO> {
+    const product = await this.productRepository.findOneBy({ ean });
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    }
+    return product.mapToResponseDTO();
   }
 
   public async insertProduct(
     product: ProductRequestDTO,
   ): Promise<ProductResponseDTO> {
-    await this.productRepository.insert(product);
-    return product;
+    return (await this.productRepository.save(product)).mapToResponseDTO();
   }
 }

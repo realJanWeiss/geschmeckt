@@ -1,12 +1,15 @@
+import { GroupEntity } from '../../groups/entities/group.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
+import { UserResponseDTO } from '../dtos/response/user.request.dto';
 
 @Entity('users')
 export class UserEntity {
@@ -17,11 +20,20 @@ export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ nullable: false })
+  name: string;
+
   @Column({ unique: true })
   email: string;
 
   @Column()
   password: string;
+
+  @ManyToMany(() => GroupEntity, (group) => group.users, {
+    nullable: true,
+    cascade: true,
+  })
+  groups: GroupEntity[];
 
   @CreateDateColumn()
   created_at: Date;
@@ -34,4 +46,12 @@ export class UserEntity {
 
   @VersionColumn()
   version: number;
+
+  mapToResponseDTO(): UserResponseDTO {
+    return {
+      id: this.id,
+      name: this.name,
+      email: this.email,
+    };
+  }
 }

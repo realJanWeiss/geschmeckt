@@ -7,9 +7,10 @@ import { ProductsService } from './products.service';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @ApiOperation({ summary: 'Get a product by EAN code.' })
+  @ApiOperation({ summary: 'Get products by EAN code.' })
   @ApiOkResponse({
-    description: 'Returns the found products',
+    description:
+      'Returns the found products. It could be multiple products because ean codes are reused when a product is discontinued.',
     type: [ProductResponseDTO],
   })
   @Get(':ean')
