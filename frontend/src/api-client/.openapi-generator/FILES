@@ -16,5 +16,6 @@ model/loginRequestDTO.ts
 model/models.ts
 model/productResponseDTO.ts
 model/userRequestDTO.ts
+model/userResponseDTO.ts
 param.ts
 variables.ts

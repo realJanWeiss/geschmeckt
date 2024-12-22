@@ -1,7 +1,7 @@
-import { signal, Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { Observable, tap } from 'rxjs';
-import { AuthenticationService, LoginRequestDTO, UserRequestDTO } from 'src/api-client';
+import { AuthenticationService, LoginRequestDTO, UserRequestDTO, UserResponseDTO } from 'src/api-client';
 
 const JWT_STORAGE_KEY = 'jwt';
 
@@ -9,9 +9,8 @@ const JWT_STORAGE_KEY = 'jwt';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly jwt = signal<string | undefined>(undefined);
+  public readonly user = signal<any>(undefined);
   private storageInstance: Storage | null = null;
-
 
   constructor(
     private readonly authenticationService: AuthenticationService,
@@ -21,9 +20,7 @@ export class AuthService {
   async init() {
     if (!this.storageInstance) {
       this.storageInstance = await this.storage.create();
-      await this.storage.get(JWT_STORAGE_KEY).then((jwt) => {
-        this.jwt.set(jwt);
-      });
+      await this.storage.get(JWT_STORAGE_KEY);
     }
   }
 
@@ -49,4 +46,12 @@ export class AuthService {
     );
   }
 
+  public fetchUser(): Observable<UserResponseDTO> {
+    // TODO set jwt in header
+    return this.authenticationService.authenticationControllerGetCurrentUser().pipe(
+      tap((user) => {
+        this.user.set(user)
+      })
+    );
+  }
 }

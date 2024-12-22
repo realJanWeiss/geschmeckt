@@ -13,5 +13,13 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Profile page"></app-explore-container>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>😋</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      {{ authService.user()?.name }}<br>
+      {{ authService.user()?.email }}
+    </ion-card-content>
+  </ion-card>
 </ion-content>
