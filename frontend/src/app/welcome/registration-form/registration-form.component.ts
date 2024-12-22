@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
+import { AuthService } from 'src/app/api/auth.service';
 
 @Component({
   selector: 'app-registration-form',
@@ -12,7 +13,7 @@ export class RegistrationFormComponent implements OnInit {
   // @ts-ignore
   registrationForm: FormGroup;
 
-  constructor(private readonly fb: FormBuilder, private readonly navCtrl: NavController) {}
+  constructor(private authService: AuthService, private readonly navCtrl: NavController) {}
 
   ngOnInit() {
     this.registrationForm = new FormGroup({
@@ -40,12 +41,14 @@ export class RegistrationFormComponent implements OnInit {
       : null;
   }
 
-  onSubmit() {
-    debugger;
+  async onSubmit() {
     if (this.registrationForm.valid) {
       const { name, email, password } = this.registrationForm.value;
-      console.log('TODO register', { name, email, password });
-      this.navCtrl.navigateForward('/home');
+      this.authService.registerUser({ name, email, password }).subscribe((res) => {
+        console.log(res);
+        this.navCtrl.navigateForward('/home');
+      });
+
     } else {
       console.log('Form is invalid');
     }

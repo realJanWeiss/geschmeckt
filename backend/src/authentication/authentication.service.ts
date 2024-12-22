@@ -7,10 +7,12 @@ import { UsersService } from '@/users/users.service';
 import { UserRequestDTO } from '@/users/dtos/request/user.request.dto';
 import { password_validate } from '@/users/password.utils';
 import { AuthenticationError } from './errors';
+import { LoginRequestDTO } from '@/users/dtos/request/login.request.dto';
 
 @Injectable()
 export class AuthenticationService {
-  private blackListedJWTs: string[] = [];
+  private readonly blackListedJWTs: string[] = [];
+
   constructor(
     private readonly usersService: UsersService,
     @InjectRepository(UserEntity)
@@ -23,13 +25,13 @@ export class AuthenticationService {
     return await this.JWTService.signAsync({ userID: user.id });
   }
 
-  public async login(userRequestDTO: UserRequestDTO): Promise<string> {
+  public async login(loginRequestDTO: LoginRequestDTO): Promise<string> {
     const userFromDB = await this.userRepository.findOneBy({
-      email: userRequestDTO.email,
+      email: loginRequestDTO.email,
     });
     if (!userFromDB) throw new AuthenticationError();
     const isPasswordValid = await password_validate(
-      userRequestDTO.password,
+      loginRequestDTO.password,
       userFromDB.password,
     );
     if (!isPasswordValid) throw new AuthenticationError();
