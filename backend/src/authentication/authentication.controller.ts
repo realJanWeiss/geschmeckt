@@ -27,6 +27,16 @@ export class AuthenticationController {
 
   @Post('/login')
   @HttpCode(200)
+  @ApiOkResponse({
+    description: 'Returns the JWT.',
+    content: {
+      'text/plain': {
+        schema: {
+          type: 'string',
+        },
+      },
+    },
+  })
   public async login(@Body() body: LoginRequestDTO): Promise<string> {
     return this.authenticationService.login(body);
   }

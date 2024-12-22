@@ -13,7 +13,7 @@ export class RegistrationFormComponent implements OnInit {
   // @ts-ignore
   registrationForm: FormGroup;
 
-  constructor(private authService: AuthService, private readonly navCtrl: NavController) {}
+  constructor(private readonly authService: AuthService, private readonly navCtrl: NavController) {}
 
   ngOnInit() {
     this.registrationForm = new FormGroup({
