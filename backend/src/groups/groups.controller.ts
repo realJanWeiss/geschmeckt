@@ -1,25 +1,18 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Param,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
-import { Authguard } from '@/guards/auth.guard';
+import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
 import { GroupRequestDTO } from './dtos/request/group.request.dto';
 import { GroupsService } from './groups.service';
 import { GetUser } from '@/authentication/decorators/user.decorator';
 import { UserEntity } from '@/users/entities/user.entity';
 import { GroupResponseDTO } from './dtos/response/group.response.dto';
 import { ApiOkResponse } from '@nestjs/swagger';
+import { RequireAuth } from '@/authentication/decorators/require-auth.decorator';
 
 @Controller('groups')
 export class GroupsController {
   constructor(private readonly groupsService: GroupsService) {}
 
   @Post()
-  @UseGuards(Authguard)
+  @RequireAuth()
   @ApiOkResponse({ type: GroupResponseDTO })
   public async create(
     @Body() body: GroupRequestDTO,
@@ -29,7 +22,7 @@ export class GroupsController {
   }
 
   @Delete('/:groupId')
-  @UseGuards(Authguard)
+  @RequireAuth()
   public async delete(
     @Param('groupId') groupId: string,
     @GetUser() user: UserEntity,
@@ -38,7 +31,7 @@ export class GroupsController {
   }
 
   @Post('/:groupId/join')
-  @UseGuards(Authguard)
+  @RequireAuth()
   public async join(
     @Param('groupId') groupId: string,
     @GetUser() user: UserEntity,

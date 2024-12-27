@@ -11,18 +11,24 @@ import { AuthenticationService } from '../authentication/authentication.service'
 @Injectable()
 export class Authguard implements CanActivate {
   constructor(
-    private readonly JWTService: JwtService,
+    private readonly jwtService: JwtService,
     private readonly authService: AuthenticationService,
     private readonly usersService: UsersService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
+    const authHeader = request.headers.authorization;
+
+    if (!authHeader?.startsWith('Bearer ')) {
+      throw new UnauthorizedException(
+        'Missing or invalid authorization header',
+      );
+    }
+
+    const jwt = authHeader.split(' ')[1];
     try {
-      const bearer = request.headers.authorization;
-      if (!bearer) throw new UnauthorizedException();
-      const jwt = bearer.split(' ')[1];
-      const payload = await this.JWTService.verify(jwt);
+      const payload = await this.jwtService.verify(jwt);
       if (this.authService.getBlackListedJWTs().includes(jwt))
         throw new UnauthorizedException();
       request.jwt = { jwt };

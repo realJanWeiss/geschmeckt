@@ -1,20 +1,12 @@
 import { ApiOkResponse } from '@nestjs/swagger';
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { GetJwt } from './decorators/jwt.decorator';
-import { Authguard } from '@/guards/auth.guard';
 import { UserRequestDTO } from '@/users/dtos/request/user.request.dto';
 import { LoginRequestDTO } from '@/users/dtos/request/login.request.dto';
-import { UserResponseDTO } from '@/users/dtos/response/user.request.dto';
-import { UserEntity } from '@/users/entities/user.entity';
+import { UserResponseDTO } from '@/users/dtos/response/user.response.dto';
 import { GetUser } from './decorators/user.decorator';
+import { RequireAuth } from './decorators/require-auth.decorator';
 
 @Controller('authentication')
 export class AuthenticationController {
@@ -52,19 +44,19 @@ export class AuthenticationController {
   }
 
   @Post('/logout')
-  @UseGuards(Authguard)
+  @RequireAuth()
   public async logout(@GetJwt() dto: { jwt: string }): Promise<boolean> {
     return this.authenticationService.logout(dto);
   }
 
   @Get('/current')
-  @UseGuards(Authguard)
+  @RequireAuth()
   @ApiOkResponse({
     type: UserResponseDTO,
   })
   public async getCurrentUser(
-    @GetUser() user: UserEntity,
+    @GetUser() user: UserResponseDTO,
   ): Promise<UserResponseDTO> {
-    return user.mapToResponseDTO();
+    return user;
   }
 }

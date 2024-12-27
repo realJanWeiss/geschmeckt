@@ -10,7 +10,7 @@ import {
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
-import { UserResponseDTO } from '../dtos/response/user.request.dto';
+import { UserResponseDTO } from '../dtos/response/user.response.dto';
 import { RatingEntity } from '@/ratings/entities/rating.entity';
 
 @Entity('users')

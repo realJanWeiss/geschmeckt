@@ -8,7 +8,7 @@ import {
   Length,
   ValidateNested,
 } from 'class-validator';
-import { UserResponseDTO } from '@/users/dtos/response/user.request.dto';
+import { UserResponseDTO } from '@/users/dtos/response/user.response.dto';
 
 export class GroupBaseDTO {
   @ApiProperty()

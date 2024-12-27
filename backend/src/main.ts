@@ -10,6 +10,7 @@ async function bootstrap() {
     .setTitle('Geschmeckt Api')
     .setDescription('The documentation of the Geschmeckt Api')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);

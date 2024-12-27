@@ -8,7 +8,7 @@ import { UserEntity } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { UserRequestDTO } from './dtos/request/user.request.dto';
 import { password_hash } from './password.utils';
-import { UserResponseDTO } from './dtos/response/user.request.dto';
+import { UserResponseDTO } from './dtos/response/user.response.dto';
 
 @Injectable()
 export class UsersService {
