@@ -46,12 +46,8 @@ export class RegistrationFormComponent implements OnInit {
     if (this.registrationForm.valid) {
       const { name, email, password } = this.registrationForm.value;
       this.authService.registerUser({ name, email, password }).subscribe((res) => {
-        console.log(res);
         this.router.navigate(['/home']);
       });
-
-    } else {
-      console.log('Form is invalid');
     }
   }
 }

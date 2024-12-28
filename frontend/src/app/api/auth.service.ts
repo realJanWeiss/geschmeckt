@@ -1,56 +1,53 @@
 import { Injectable, signal } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
-import { Observable, tap } from 'rxjs';
-import { AuthenticationService, LoginRequestDTO, UserRequestDTO, UserResponseDTO } from 'src/api-client';
-
-const JWT_STORAGE_KEY = 'jwt';
+import { from, map, mergeMap, Observable, tap } from 'rxjs';
+import { AuthenticationService, Configuration, LoginRequestDTO, UserRequestDTO, UserResponseDTO } from 'src/api-client';
+import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   public readonly user = signal<any>(undefined);
-  private storageInstance: Storage | null = null;
 
   constructor(
     private readonly authenticationService: AuthenticationService,
-    private readonly storage: Storage
+    private readonly tokenService: TokenService,
   ) {}
 
-  async init() {
-    if (!this.storageInstance) {
-      this.storageInstance = await this.storage.create();
-      await this.storage.get(JWT_STORAGE_KEY);
-    }
-  }
-
-  async isLoggedIn(): Promise<boolean> {
-    await this.init();
-    const token = await this.storage.get(JWT_STORAGE_KEY);
-    return token !== null;
+  isLoggedIn(): boolean {
+    return Boolean(this.tokenService.getToken());
   }
 
   public registerUser(userRequestDTO: UserRequestDTO): Observable<string> {
     return this.authenticationService.authenticationControllerRegister(userRequestDTO).pipe(
       tap((jwt) => {
-        this.storage.set(JWT_STORAGE_KEY, jwt);
+        this.tokenService.setToken(jwt);
       })
     );
   }
 
-  public login(loginRequestDTO: LoginRequestDTO) {
+  public login(loginRequestDTO: LoginRequestDTO): Observable<string> {
     return this.authenticationService.authenticationControllerLogin(loginRequestDTO).pipe(
       tap((jwt) => {
-        this.storage.set(JWT_STORAGE_KEY, jwt);
+        this.tokenService.setToken(jwt);
+      })
+    );
+  }
+
+  public logout(): Observable<void> {
+    return this.authenticationService.authenticationControllerLogout().pipe(
+      mergeMap(() => {
+        return this.tokenService.removeToken();
       })
     );
   }
 
   public fetchUser(): Observable<UserResponseDTO> {
-    // TODO set jwt in header
     return this.authenticationService.authenticationControllerGetCurrentUser().pipe(
       tap((user) => {
-        this.user.set(user)
+        this.user.set(user);
+        return user;
       })
     );
   }

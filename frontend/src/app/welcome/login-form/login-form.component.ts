@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/api/auth.service';
   imports: [IonicModule, ReactiveFormsModule]
 })
 export class LoginFormComponent  implements OnInit {
+  @Output() passed = new EventEmitter<void>();
   // @ts-ignore
   loginForm: FormGroup;
 
@@ -27,11 +28,9 @@ export class LoginFormComponent  implements OnInit {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
       this.authService.login({ email, password }).subscribe(() => {
+        this.passed.emit();
         this.router.navigate(['/home']);
       });
-
-    } else {
-      console.log('Form is invalid');
     }
   }
 }

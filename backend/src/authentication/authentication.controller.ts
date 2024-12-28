@@ -23,7 +23,7 @@ export class AuthenticationController {
       },
     },
   })
-  public async register(@Body() body: UserRequestDTO): Promise<string> {
+  public register(@Body() body: UserRequestDTO): Promise<string> {
     return this.authenticationService.register(body);
   }
 
@@ -39,14 +39,18 @@ export class AuthenticationController {
       },
     },
   })
-  public async login(@Body() body: LoginRequestDTO): Promise<string> {
+  public login(@Body() body: LoginRequestDTO): Promise<string> {
+    console.log('login --------------');
     return this.authenticationService.login(body);
   }
 
   @Post('/logout')
   @RequireAuth()
-  public async logout(@GetJwt() dto: { jwt: string }): Promise<boolean> {
-    return this.authenticationService.logout(dto);
+  @ApiOkResponse({ type: String })
+  public logout(@GetJwt() dto: { jwt: string }): string {
+    console.log('logout --------------');
+    this.authenticationService.logout(dto);
+    return 'Ok';
   }
 
   @Get('/current')

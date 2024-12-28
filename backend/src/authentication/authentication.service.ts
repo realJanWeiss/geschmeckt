@@ -38,9 +38,8 @@ export class AuthenticationService {
     return await this.JWTService.signAsync({ userID: userFromDB.id });
   }
 
-  public async logout(dto: { jwt: string }): Promise<boolean> {
+  public logout(dto: { jwt: string }): void {
     this.blackListedJWTs.push(dto.jwt);
-    return true;
   }
 
   public getBlackListedJWTs(): string[] {
