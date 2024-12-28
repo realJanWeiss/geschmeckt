@@ -22,6 +22,7 @@ export class GroupEntity {
 
   @ManyToMany(() => UserEntity, (user) => user.groups, {
     nullable: false,
+    eager: true,
   })
   @JoinTable()
   users: UserEntity[];
@@ -42,6 +43,7 @@ export class GroupEntity {
     return {
       id: this.id,
       name: this.name,
+      users: this.users.map((user) => user.mapToResponseDTO()),
     };
   }
 }

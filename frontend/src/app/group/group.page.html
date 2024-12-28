@@ -13,7 +13,7 @@
     </ion-toolbar>
   </ion-header>
 
-  @if (groups.length === 0) {
+  @if (!groupService.fetching() && groupService.groups().length === 0) {
     <p>You are not in any groups currently. Form a group with your family or friends to share your taste.</p>
   }
 
@@ -30,9 +30,9 @@
     </ion-button>
   </div>
 
-  @if (groups.length > 0) {
+  @if (!groupService.fetching() && groupService.groups().length > 0) {
     <ion-list>
-      @for (group of groups; track group.id) {
+      @for (group of groupService.groups(); track group.id) {
         <ion-item>
           <ion-label>{{ group.name }}</ion-label>
         </ion-item>

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { GroupRequestDTO } from './dtos/request/group.request.dto';
 import { GroupsService } from './groups.service';
 import { GetUser } from '@/authentication/decorators/user.decorator';
@@ -6,10 +6,20 @@ import { UserEntity } from '@/users/entities/user.entity';
 import { GroupResponseDTO } from './dtos/response/group.response.dto';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { RequireAuth } from '@/authentication/decorators/require-auth.decorator';
+import { UserResponseDTO } from '@/users/dtos/response/user.response.dto';
 
 @Controller('groups')
 export class GroupsController {
   constructor(private readonly groupsService: GroupsService) {}
+
+  @Get('/by-user/current')
+  @RequireAuth()
+  @ApiOkResponse({ type: [GroupResponseDTO] })
+  public async getGroupsForCurrentUser(
+    @GetUser() user: UserResponseDTO,
+  ): Promise<GroupResponseDTO[]> {
+    return this.groupsService.getGroupsByUser(user);
+  }
 
   @Post()
   @RequireAuth()

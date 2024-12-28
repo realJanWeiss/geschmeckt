@@ -26,8 +26,9 @@ export class CreateGroupModalComponent  implements OnInit {
   onSubmit() {
     if (this.groupCreationForm.valid) {
       const { name } = this.groupCreationForm.value;
-      debugger;
-       this.groupsService.groupsControllerCreate({ name }).subscribe();
+      this.groupsService.groupsControllerCreate({ name }).subscribe(() => {
+        this.isOpenChange.emit(false);
+       });
     }
   }
 }

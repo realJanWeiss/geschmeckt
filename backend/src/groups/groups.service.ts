@@ -11,6 +11,7 @@ import { GroupRequestDTO } from './dtos/request/group.request.dto';
 import { UsersService } from '@/users/users.service';
 import { GroupResponseDTO } from './dtos/response/group.response.dto';
 import { GroupNotFoundException } from './errors';
+import { UserResponseDTO } from '@/users/dtos/response/user.response.dto';
 
 @Injectable()
 export class GroupsService {
@@ -34,6 +35,11 @@ export class GroupsService {
 
   async getGroup(groupId: string): Promise<GroupResponseDTO> {
     return (await this.getGroupEntity(groupId)).mapToResponseDTO();
+  }
+
+  async getGroupsByUser(user: UserResponseDTO): Promise<GroupResponseDTO[]> {
+    const groups = await this.groupRepository.find({ where: { users: user } });
+    return groups.map((group) => group.mapToResponseDTO());
   }
 
   async createGroup(
