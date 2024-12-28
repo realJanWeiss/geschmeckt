@@ -20,9 +20,6 @@ export class GroupEntity {
   @Column()
   name: string;
 
-  @Column()
-  secret: string;
-
   @ManyToMany(() => UserEntity, (user) => user.groups, {
     nullable: false,
   })
@@ -45,7 +42,6 @@ export class GroupEntity {
     return {
       id: this.id,
       name: this.name,
-      secret: this.secret,
     };
   }
 }

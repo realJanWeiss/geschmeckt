@@ -12,8 +12,7 @@ import { AuthService } from 'src/app/api/auth.service';
 })
 export class LoginFormComponent  implements OnInit {
   @Output() passed = new EventEmitter<void>();
-  // @ts-ignore
-  loginForm: FormGroup;
+  loginForm!: FormGroup;
 
   constructor(private readonly authService: AuthService, private readonly router: Router) {}
 

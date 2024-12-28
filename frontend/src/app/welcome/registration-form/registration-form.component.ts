@@ -11,8 +11,7 @@ import { AuthService } from 'src/app/api/auth.service';
   imports: [IonicModule, ReactiveFormsModule]
 })
 export class RegistrationFormComponent implements OnInit {
-  // @ts-ignore
-  registrationForm: FormGroup;
+  registrationForm!: FormGroup;
 
   constructor(private readonly authService: AuthService, private readonly router: Router) {}
 

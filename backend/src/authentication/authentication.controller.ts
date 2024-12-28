@@ -40,17 +40,22 @@ export class AuthenticationController {
     },
   })
   public login(@Body() body: LoginRequestDTO): Promise<string> {
-    console.log('login --------------');
     return this.authenticationService.login(body);
   }
 
   @Post('/logout')
   @RequireAuth()
-  @ApiOkResponse({ type: String })
-  public logout(@GetJwt() dto: { jwt: string }): string {
-    console.log('logout --------------');
+  @ApiOkResponse({
+    content: {
+      'text/plain': {
+        schema: {
+          type: 'string',
+        },
+      },
+    },
+  })
+  public logout(@GetJwt() dto: { jwt: string }) {
     this.authenticationService.logout(dto);
-    return 'Ok';
   }
 
   @Get('/current')

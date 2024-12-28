@@ -20,6 +20,8 @@ export class ProductsService {
   public async insertProduct(
     product: ProductRequestDTO,
   ): Promise<ProductResponseDTO> {
-    return (await this.productRepository.save(product)).mapToResponseDTO();
+    const productEntity = this.productRepository.create(product);
+    await this.productRepository.insert(productEntity);
+    return productEntity.mapToResponseDTO();
   }
 }

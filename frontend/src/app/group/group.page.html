@@ -6,12 +6,37 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Group management</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Group page"></app-explore-container>
+  @if (groups.length === 0) {
+    <p>You are not in any groups currently. Form a group with your family or friends to share your taste.</p>
+  }
+
+  <div class="ion-text-center">
+    <ion-button fill="clear" (click)="createGroup()">
+      <ion-icon slot="start" name="add-outline"></ion-icon>
+      Create New
+    </ion-button>
+    <app-create-group-modal [(isOpen)]="isCreatingGroup"  />
+
+    <ion-button fill="clear">
+      <ion-icon slot="start" name="person-add-outline"></ion-icon>
+      Join
+    </ion-button>
+  </div>
+
+  @if (groups.length > 0) {
+    <ion-list>
+      @for (group of groups; track group.id) {
+        <ion-item>
+          <ion-label>{{ group.name }}</ion-label>
+        </ion-item>
+      }
+    </ion-list>
+  }
 </ion-content>

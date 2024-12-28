@@ -19,9 +19,6 @@ export class GroupBaseDTO {
   @Length(1, 200)
   name: string;
 
-  @ApiProperty()
-  secret: string;
-
   @ApiProperty({ type: () => [UserResponseDTO], minItems: 1 })
   @IsNotEmpty()
   @IsArray()

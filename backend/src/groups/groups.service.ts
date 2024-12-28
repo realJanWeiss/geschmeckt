@@ -42,12 +42,12 @@ export class GroupsService {
   ): Promise<GroupResponseDTO> {
     const user = await this.usersService.getUserById(userId);
 
-    return (
-      await this.groupRepository.save({
-        name: groupRequestDTO.name,
-        users: [user],
-      })
-    ).mapToResponseDTO();
+    const group = this.groupRepository.create({
+      name: groupRequestDTO.name,
+      users: [user],
+    });
+    await this.groupRepository.insert(group);
+    return group.mapToResponseDTO();
   }
 
   async deleteGroup(groupId: string, userId: string): Promise<void> {

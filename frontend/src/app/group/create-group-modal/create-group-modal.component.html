@@ -1,0 +1,16 @@
+<app-modal [isOpen]="isOpen" (isOpenChange)="isOpenChange.emit($event)" titleText="Create new group">
+  <form [formGroup]="groupCreationForm" (ngSubmit)="onSubmit()">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-input fill="outline" labelPlacement="floating" label="Name" formControlName="name" required />
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="block" type="submit">Create</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</app-modal>

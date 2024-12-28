@@ -1,24 +1,25 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonButton, IonItemDivider, IonModal, IonHeader, IonToolbar, IonButtons, IonTitle } from '@ionic/angular/standalone';
+import { IonContent, IonButton, IonItemDivider } from '@ionic/angular/standalone';
 import { RegistrationFormComponent } from "./registration-form/registration-form.component";
 import { LoginFormComponent } from "./login-form/login-form.component";
+import { ModalComponent } from "../ui-library/modal/modal.component";
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.page.html',
   styleUrls: ['./welcome.page.scss'],
   standalone: true,
-  imports: [IonTitle, IonButtons, IonToolbar, IonHeader, IonModal, IonButton, IonItemDivider, IonContent, CommonModule, FormsModule, RegistrationFormComponent, LoginFormComponent]
+  imports: [IonButton, IonItemDivider, IonContent, CommonModule, FormsModule, RegistrationFormComponent, LoginFormComponent, ModalComponent]
 })
 export class WelcomePage {
-  // @ts-ignore
-  @ViewChild(IonModal) modal: IonModal;
+  isLoggingIn = false;
 
-  constructor() { }
+  constructor(private readonly cdr: ChangeDetectorRef) { }
 
-  cancel() {
-    this.modal.dismiss(null, 'cancel');
+  closeLoginModal() {
+    this.isLoggingIn = false;
+    this.cdr.detectChanges();
   }
 }

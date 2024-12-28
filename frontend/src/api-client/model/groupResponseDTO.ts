@@ -12,6 +12,5 @@
 export interface GroupResponseDTO { 
     id: string;
     name: string;
-    secret: string;
 }
 
