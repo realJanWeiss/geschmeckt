@@ -74,8 +74,21 @@ export class GroupsService {
     const user = await this.usersService.getUserEntityById(userId);
     const group = await this.getGroupEntity(groupId);
 
-    user.groups.push(group);
-    await this.userRepository.save(user);
+    group.users.push(user);
+    await this.groupRepository.save(group);
+    return group.mapToResponseDTO();
+  }
+
+  async removeUserFromGroup(
+    userId: string,
+    groupId: string,
+  ): Promise<GroupResponseDTO> {
+    const user = await this.usersService.getUserEntityById(userId);
+    const group = await this.getGroupEntity(groupId);
+
+    const foundIndex = group.users.findIndex((u) => u.id === user.id);
+    group.users.splice(foundIndex);
+    await this.groupRepository.save(group);
     return group.mapToResponseDTO();
   }
 }

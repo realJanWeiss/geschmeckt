@@ -21,6 +21,14 @@ export class GroupsController {
     return this.groupsService.getGroupsByUser(user);
   }
 
+  @Get('/:groupId')
+  @ApiOkResponse({ type: GroupResponseDTO })
+  public async getGroupById(
+    @Param('groupId') groupId: string,
+  ): Promise<GroupResponseDTO> {
+    return this.groupsService.getGroup(groupId);
+  }
+
   @Post()
   @RequireAuth()
   @ApiOkResponse({ type: GroupResponseDTO })
@@ -42,10 +50,21 @@ export class GroupsController {
 
   @Post('/:groupId/join')
   @RequireAuth()
+  @ApiOkResponse({ type: GroupResponseDTO })
   public async join(
     @Param('groupId') groupId: string,
     @GetUser() user: UserEntity,
   ): Promise<GroupResponseDTO> {
     return this.groupsService.addUserToGroup(user.id, groupId);
+  }
+
+  @Post('/:groupId/leave')
+  @RequireAuth()
+  @ApiOkResponse({ type: GroupResponseDTO })
+  public async leave(
+    @Param('groupId') groupId: string,
+    @GetUser() user: UserEntity,
+  ): Promise<GroupResponseDTO> {
+    return this.groupsService.removeUserFromGroup(user.id, groupId);
   }
 }

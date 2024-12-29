@@ -13,8 +13,17 @@ export const routes: Routes = [
       },
       {
         path: 'group',
-        loadComponent: () =>
-          import('../group/group.page').then((m) => m.GroupPage),
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('../group/group.page').then((m) => m.GroupPage),
+          },
+          {
+            path: ':id',
+            loadComponent: () => import('../group-detail/group-detail.page').then( m => m.GroupDetailPage)
+          },
+        ]
       },
       {
         path: 'profile',

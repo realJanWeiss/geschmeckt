@@ -20,4 +20,20 @@ export class GroupService {
       })
     );
   }
+
+  joinGroup(groupId: string): Observable<GroupResponseDTO> {
+    return this.groupsService.groupsControllerJoin(groupId).pipe(
+      tap(group => {
+        this.groups.update(groups => groups.concat(group));
+      })
+    );
+  }
+
+  leaveGroup(groupId: string): Observable<GroupResponseDTO> {
+    return this.groupsService.groupsControllerLeave(groupId).pipe(
+      tap(group => {
+        this.groups.update(groups => groups.filter(g => g.id !== group.id));
+      })
+    );
+  }
 }
