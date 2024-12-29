@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { IonButton, IonIcon, IonList, IonListHeader, IonItem, IonLabel, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { addOutline, personAddOutline } from 'ionicons/icons';
+import { addOutline } from 'ionicons/icons';
 import { CreateGroupModalComponent } from "./create-group-modal/create-group-modal.component";
 import { GroupService } from '../api/group.service';
 import { GroupResponseDTO } from 'src/api-client';
@@ -17,7 +17,7 @@ export class GroupPage implements OnInit {
   showingGroup = signal<GroupResponseDTO | undefined>(undefined);
 
   constructor(readonly groupService: GroupService) {
-    addIcons({ addOutline, personAddOutline });
+    addIcons({ addOutline });
   }
 
   ngOnInit(): void {

@@ -1,3 +1,4 @@
+import { Share } from '@capacitor/share';
 import { Component, computed, OnInit, signal, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -8,6 +9,7 @@ import { GroupResponseDTO, GroupsService } from 'src/api-client';
 import { GroupService } from '../api/group.service';
 import { addIcons } from 'ionicons';
 import { exitOutline, personAddOutline } from 'ionicons/icons';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-group-detail',
@@ -42,6 +44,14 @@ export class GroupDetailPage implements OnInit {
     this.groupsService.groupsControllerGetGroupById(this.groupId).subscribe(group => {
       this.group.set(group);
     });
+  }
+
+  async invite() {
+    await Share.share({
+      title: 'Join my Geschmeckt group',
+      text: 'Let\'s share which groceries we like best!',
+      url: `${environment.baseUrl}/home/group/${this.groupId}`
+    })
   }
 
   joinGroup() {

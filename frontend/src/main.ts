@@ -9,6 +9,7 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
 import { Drivers } from '@ionic/storage';
 import { TokenService } from './app/api/token.service';
+import { environment } from './environments/environment';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -24,7 +25,7 @@ bootstrapApplication(AppComponent, {
       provide: Configuration,
       useFactory: (tokenService: TokenService) =>
         new Configuration({
-          basePath: 'http://localhost:3000',
+          basePath: environment.baseUrlApi,
           credentials: {
             'bearer': tokenService.getToken.bind(tokenService)
           }
