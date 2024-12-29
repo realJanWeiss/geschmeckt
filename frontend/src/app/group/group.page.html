@@ -13,30 +13,71 @@
     </ion-toolbar>
   </ion-header>
 
-  @if (!groupService.fetching() && groupService.groups().length === 0) {
-    <p>You are not in any groups currently. Form a group with your family or friends to share your taste.</p>
+  @if (!groupService.fetching()) {
+    @if (groupService.groups().length === 0) {
+      <p>You are not in any groups currently. Form a group with your family or friends to share your taste.</p>
+    } @else {
+      <ion-list [inset]="true">
+        <ion-list-header>
+          <ion-label>Groups you are in</ion-label>
+        </ion-list-header>
+        @for (group of groupService.groups(); track group.id) {
+          <ion-item button (click)="setShowingGroup(group)">
+            <ion-label>{{ group.name }}</ion-label>
+          </ion-item>
+        }
+      </ion-list>
+
+      <ion-modal [isOpen]="!!showingGroup()" [initialBreakpoint]="0.25" [breakpoints]="[0, 0.25, 0.5, 0.75]" (didDismiss)="setShowingGroup(undefined)">
+        <ng-template>
+          <ion-content>
+            <ion-list>
+              <ion-list-header>
+                Members
+              </ion-list-header>
+              @for (user of showingGroup()!.users; track user.id) {
+                <ion-item>
+                  <ion-label>
+                    <h2>{{ user.name }}</h2>
+                  </ion-label>
+                </ion-item>
+              }
+            </ion-list>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-button fill="clear" expand="block">
+                    <ion-icon aria-hidden="true" slot="start" name="person-add-outline"></ion-icon>
+                    Invite Member
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-button fill="clear" color="danger" expand="block">
+                    <ion-icon aria-hidden="true" slot="start" name="exit-outline"></ion-icon>
+                    Leave Group
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+    }
+
+    <div class="ion-text-center">
+      <ion-button fill="clear" (click)="createGroup()">
+        <ion-icon slot="start" name="add-outline"></ion-icon>
+        Create New
+      </ion-button>
+      <app-create-group-modal [(isOpen)]="isCreatingGroup"  />
+
+      <ion-button fill="clear">
+        <ion-icon slot="start" name="person-add-outline"></ion-icon>
+        Join
+      </ion-button>
+    </div>
   }
 
-  <div class="ion-text-center">
-    <ion-button fill="clear" (click)="createGroup()">
-      <ion-icon slot="start" name="add-outline"></ion-icon>
-      Create New
-    </ion-button>
-    <app-create-group-modal [(isOpen)]="isCreatingGroup"  />
-
-    <ion-button fill="clear">
-      <ion-icon slot="start" name="person-add-outline"></ion-icon>
-      Join
-    </ion-button>
-  </div>
-
-  @if (!groupService.fetching() && groupService.groups().length > 0) {
-    <ion-list>
-      @for (group of groupService.groups(); track group.id) {
-        <ion-item>
-          <ion-label>{{ group.name }}</ion-label>
-        </ion-item>
-      }
-    </ion-list>
-  }
 </ion-content>

@@ -7,10 +7,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { UserResponseDTO } from './userResponseDTO';
 
 
 export interface GroupResponseDTO { 
     id: string;
     name: string;
+    users: Array<UserResponseDTO>;
 }
 

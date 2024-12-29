@@ -52,7 +52,7 @@ export class GroupsService {
       name: groupRequestDTO.name,
       users: [user],
     });
-    await this.groupRepository.insert(group);
+    await this.groupRepository.save(group);
     return group.mapToResponseDTO();
   }
 
