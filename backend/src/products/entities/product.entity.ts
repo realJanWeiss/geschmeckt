@@ -1,5 +1,6 @@
 import { RatingEntity } from '@/ratings/entities/rating.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { ProductResponseDTO } from '../dtos/response/product.response.dto';
 
 @Entity('products')
 export class ProductEntity {
@@ -17,8 +18,9 @@ export class ProductEntity {
   @OneToMany(() => RatingEntity, (rating) => rating.user)
   ratings: RatingEntity[];
 
-  mapToResponseDTO() {
+  mapToResponseDTO(): ProductResponseDTO {
     return {
+      id: this.id,
       ean: this.ean,
       name: this.name,
     };

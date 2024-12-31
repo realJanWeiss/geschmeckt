@@ -18,7 +18,7 @@ export class ProductsController {
     @Param('ean') ean: string,
   ): Promise<ProductResponseDTO[]> {
     const products = await this.productsService.getProductsByEan(ean);
-    if (!products) {
+    if (!products.length) {
       throw new NotFoundException();
     }
     return products;

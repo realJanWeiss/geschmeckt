@@ -5,9 +5,14 @@ import {
   MinLength,
   MaxLength,
   IsEAN,
+  IsUUID,
 } from 'class-validator';
 
 export class ProductBaseDTO {
+  @ApiProperty()
+  @IsUUID()
+  id: string;
+
   @ApiProperty()
   @IsEAN()
   ean: string;

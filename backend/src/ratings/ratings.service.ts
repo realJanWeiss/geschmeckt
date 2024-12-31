@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RatingEntity } from './entities/rating.entity';
 import { In, Repository } from 'typeorm';
 import { GroupsService } from '@/groups/groups.service';
 import { GroupNotFoundException } from '@/groups/errors';
+import { RatingResponseDTO } from './dtos/response/rating.response.dto';
 
 @Injectable()
 export class RatingsService {
@@ -13,7 +14,24 @@ export class RatingsService {
     private readonly groupsService: GroupsService,
   ) {}
 
-  async rate(userId: string, productId: string, rating: number): Promise<void> {
+  async getRatingByUser(
+    userId: string,
+    productId: string,
+  ): Promise<RatingResponseDTO> {
+    const rating = await this.ratingsRepository.findOne({
+      where: { user: { id: userId }, product: { id: productId } },
+    });
+    if (!rating) {
+      throw new NotFoundException();
+    }
+    return rating.mapToResponseDTO();
+  }
+
+  async rate(
+    userId: string,
+    productId: string,
+    rating: number,
+  ): Promise<RatingResponseDTO> {
     const newRating = this.ratingsRepository.create({
       user: { id: userId },
       product: { id: productId },
@@ -21,6 +39,7 @@ export class RatingsService {
     });
 
     await this.ratingsRepository.save(newRating);
+    return newRating.mapToResponseDTO();
   }
 
   // TODO return RatingReturnDTO instead

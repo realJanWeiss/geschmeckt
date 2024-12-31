@@ -8,8 +8,20 @@ export const routes: Routes = [
     children: [
       {
         path: 'rate',
-        loadComponent: () =>
-          import('../rate/rate.page').then((m) => m.RatePage),
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('../rate/rate.page').then((m) => m.RatePage),
+          },
+          {
+            path: ':ean',
+            loadComponent: () =>
+              import('../rate-product/rate-product.page').then(
+                (m) => m.RateProductPage,
+              ),
+          },
+        ],
       },
       {
         path: 'group',

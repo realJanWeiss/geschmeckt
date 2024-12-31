@@ -1,0 +1,30 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Product</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Product</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  @if (!product()) {
+    <p class="ion-padding">
+      @switch (status) {
+        @case ("NOT_FOUND") {
+          We don't know the product yet. But we are working on it! 💪
+        }
+        @case ("FAILED") {
+          An unexpected error occurred 🤷‍♂️
+        }
+      }
+    </p>
+  } @else {
+    <h1>{{ product()!.name }}</h1>
+    <ion-img [src]="productImage()" alt="product image" />
+    <app-ratings-personal [productId]="product()!.id" />
+  }
+</ion-content>

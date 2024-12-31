@@ -9,9 +9,7 @@
  */
 
 
-export interface ProductResponseDTO { 
-    id: string;
-    ean: string;
-    name: string;
+export interface RatingResponseDTO { 
+    rating: number;
 }
 

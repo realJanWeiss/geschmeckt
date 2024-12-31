@@ -1,6 +1,7 @@
 import { ProductEntity } from '@/products/entities/product.entity';
 import { UserEntity } from '@/users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { RatingResponseDTO } from '../dtos/response/rating.response.dto';
 
 @Entity('ratings')
 export class RatingEntity {
@@ -12,6 +13,12 @@ export class RatingEntity {
   @ManyToOne(() => ProductEntity, (product) => product.ratings)
   product: ProductEntity;
 
-  @Column()
+  @Column({ type: 'tinyint' })
   rating: number;
+
+  mapToResponseDTO(): RatingResponseDTO {
+    return {
+      rating: this.rating,
+    };
+  }
 }
