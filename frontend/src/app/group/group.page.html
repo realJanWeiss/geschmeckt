@@ -1,8 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Groups
-    </ion-title>
+    <ion-title>Groups</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -18,7 +16,8 @@
       @if (groupService.groups().length === 0) {
         You are not in any groups currently.
       }
-      Groups allow you to share your ratings with your family and friends.</p>
+      Groups allow you to share your ratings with your family and friends.
+    </p>
     @if (groupService.groups().length > 0) {
       <ion-list>
         <ion-list-header>
@@ -37,8 +36,7 @@
         <ion-icon slot="start" name="add-outline"></ion-icon>
         Create New Group
       </ion-button>
-      <app-create-group-modal [(isOpen)]="isCreatingGroup"  />
+      <app-create-group-modal [(isOpen)]="isCreatingGroup" />
     </div>
   }
-
 </ion-content>

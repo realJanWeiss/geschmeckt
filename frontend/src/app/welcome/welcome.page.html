@@ -1,4 +1,4 @@
-<ion-content [fullscreen]="true"  class="ion-padding">
+<ion-content [fullscreen]="true" class="ion-padding">
   <h1 class="ion-text-center">Welcome to Geschmeckt</h1>
 
   <app-registration-form></app-registration-form>
@@ -9,6 +9,6 @@
     <ion-button (click)="isLoggingIn = true" fill="clear">or log in</ion-button>
   </div>
   <app-modal [(isOpen)]="isLoggingIn" titleText="Login">
-    <app-login-form (passed)="closeLoginModal()"/>
+    <app-login-form (passed)="closeLoginModal()" />
   </app-modal>
 </ion-content>

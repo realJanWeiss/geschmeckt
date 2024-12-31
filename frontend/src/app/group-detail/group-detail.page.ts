@@ -3,7 +3,23 @@ import { Component, computed, OnInit, signal, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
-import { IonList, IonItem, IonLabel, IonGrid, IonRow, IonCol, IonContent, IonHeader, IonTitle, IonToolbar, IonListHeader, IonButton, IonIcon, IonBackButton, IonButtons } from '@ionic/angular/standalone';
+import {
+  IonList,
+  IonItem,
+  IonLabel,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonContent,
+  IonHeader,
+  IonTitle,
+  IonToolbar,
+  IonListHeader,
+  IonButton,
+  IonIcon,
+  IonBackButton,
+  IonButtons,
+} from '@ionic/angular/standalone';
 import { ActivatedRoute } from '@angular/router';
 import { GroupResponseDTO, GroupsService } from 'src/api-client';
 import { GroupService } from '../api/group.service';
@@ -16,7 +32,25 @@ import { environment } from 'src/environments/environment';
   templateUrl: './group-detail.page.html',
   styleUrls: ['./group-detail.page.scss'],
   standalone: true,
-  imports: [IonButtons, IonBackButton, IonIcon, IonButton, IonList, IonItem, IonLabel, IonListHeader, IonGrid, IonRow, IonCol, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [
+    IonButtons,
+    IonBackButton,
+    IonIcon,
+    IonButton,
+    IonList,
+    IonItem,
+    IonLabel,
+    IonListHeader,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonContent,
+    IonHeader,
+    IonTitle,
+    IonToolbar,
+    CommonModule,
+    FormsModule,
+  ],
 })
 export class GroupDetailPage implements OnInit {
   private groupId!: string;
@@ -32,30 +66,34 @@ export class GroupDetailPage implements OnInit {
     addIcons({ personAddOutline, exitOutline });
     this.isMember = computed(() => {
       if (this.groupService.fetching() || !this.group()) return false;
-      return this.groupService.groups().some(group =>
-        group.id === this.group()?.id
-      );
+      return this.groupService
+        .groups()
+        .some((group) => group.id === this.group()?.id);
     });
   }
 
   ngOnInit() {
     this.groupService.fetchGroups().subscribe();
     this.groupId = this.route.snapshot.paramMap.get('id') as string;
-    this.groupsService.groupsControllerGetGroupById(this.groupId).subscribe(group => {
-      this.group.set(group);
-    });
+    this.groupsService
+      .groupsControllerGetGroupById(this.groupId)
+      .subscribe((group) => {
+        this.group.set(group);
+      });
   }
 
   async invite() {
     await Share.share({
       title: 'Join my Geschmeckt group',
-      text: 'Let\'s share which groceries we like best!',
-      url: `${environment.baseUrl}/home/group/${this.groupId}`
-    })
+      text: "Let's share which groceries we like best!",
+      url: `${environment.baseUrl}/home/group/${this.groupId}`,
+    });
   }
 
   joinGroup() {
-    this.groupService.joinGroup(this.groupId).subscribe(this.groupUpdate.bind(this));
+    this.groupService
+      .joinGroup(this.groupId)
+      .subscribe(this.groupUpdate.bind(this));
   }
 
   async requestLeaveGroup() {
@@ -70,15 +108,17 @@ export class GroupDetailPage implements OnInit {
         {
           text: 'Leave',
           role: 'destructive',
-          handler: this.leaveGroup.bind(this)
-        }
+          handler: this.leaveGroup.bind(this),
+        },
       ],
     });
     await confirmation.present();
   }
 
   private leaveGroup() {
-    this.groupService.leaveGroup(this.groupId).subscribe(this.groupUpdate.bind(this));
+    this.groupService
+      .leaveGroup(this.groupId)
+      .subscribe(this.groupUpdate.bind(this));
   }
 
   private groupUpdate(newGroup: GroupResponseDTO) {

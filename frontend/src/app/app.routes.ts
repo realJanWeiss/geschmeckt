@@ -5,12 +5,13 @@ export const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
   {
     path: 'welcome',
-    loadComponent: () => import('./welcome/welcome.page').then( m => m.WelcomePage),
-    canActivate: [AuthGuard]
+    loadComponent: () =>
+      import('./welcome/welcome.page').then((m) => m.WelcomePage),
+    canActivate: [AuthGuard],
   },
   {
     path: 'home',
     loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
 ];

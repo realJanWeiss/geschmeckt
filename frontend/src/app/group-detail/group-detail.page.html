@@ -19,9 +19,7 @@
       <h1>{{ group()!.name }}</h1>
     </div>
     <ion-list>
-      <ion-list-header>
-        Members
-      </ion-list-header>
+      <ion-list-header>Members</ion-list-header>
       @for (user of group()!.users; track user.id) {
         <ion-item>
           <ion-label>
@@ -35,14 +33,23 @@
         <ion-row>
           <ion-col>
             <ion-button fill="clear" expand="block" (click)="invite()">
-              <ion-icon aria-hidden="true" slot="start" name="person-add-outline" />
+              <ion-icon
+                aria-hidden="true"
+                slot="start"
+                name="person-add-outline"
+              />
               Invite Member
             </ion-button>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-button fill="clear" color="danger" expand="block" (click)="requestLeaveGroup()">
+            <ion-button
+              fill="clear"
+              color="danger"
+              expand="block"
+              (click)="requestLeaveGroup()"
+            >
               <ion-icon aria-hidden="true" slot="start" name="exit-outline" />
               Leave Group
             </ion-button>
@@ -52,7 +59,11 @@
         <ion-row>
           <ion-col>
             <ion-button expand="block" (click)="joinGroup()">
-              <ion-icon aria-hidden="true" slot="start" name="person-add-outline" />
+              <ion-icon
+                aria-hidden="true"
+                slot="start"
+                name="person-add-outline"
+              />
               Join
             </ion-button>
           </ion-col>

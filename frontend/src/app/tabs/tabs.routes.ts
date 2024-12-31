@@ -21,9 +21,12 @@ export const routes: Routes = [
           },
           {
             path: ':id',
-            loadComponent: () => import('../group-detail/group-detail.page').then( m => m.GroupDetailPage)
+            loadComponent: () =>
+              import('../group-detail/group-detail.page').then(
+                (m) => m.GroupDetailPage,
+              ),
           },
-        ]
+        ],
       },
       {
         path: 'profile',

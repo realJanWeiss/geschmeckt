@@ -1,8 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Profile
-    </ion-title>
+    <ion-title>Profile</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -21,7 +19,7 @@
             <ion-card-title>😋</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            {{ authService.user()?.name }}<br>
+            {{ authService.user()?.name }}<br />
             {{ authService.user()?.email }}
           </ion-card-content>
         </ion-card>
@@ -29,8 +27,17 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-button class="ion-no-margin" fill="clear" color="danger" (click)="logout()">
-          <ion-icon aria-hidden="true" slot="start" name="exit-outline"></ion-icon>
+        <ion-button
+          class="ion-no-margin"
+          fill="clear"
+          color="danger"
+          (click)="logout()"
+        >
+          <ion-icon
+            aria-hidden="true"
+            slot="start"
+            name="exit-outline"
+          ></ion-icon>
           Log out
         </ion-button>
       </ion-col>

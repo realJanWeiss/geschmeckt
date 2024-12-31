@@ -3,7 +3,7 @@ import { Observable, tap } from 'rxjs';
 import { GroupResponseDTO, GroupsService } from 'src/api-client';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GroupService {
   fetching = signal<boolean>(true);
@@ -14,26 +14,26 @@ export class GroupService {
   fetchGroups(): Observable<GroupResponseDTO[]> {
     this.fetching.set(true);
     return this.groupsService.groupsControllerGetGroupsForCurrentUser().pipe(
-      tap(groups => {
+      tap((groups) => {
         this.groups.set(groups);
         this.fetching.set(false);
-      })
+      }),
     );
   }
 
   joinGroup(groupId: string): Observable<GroupResponseDTO> {
     return this.groupsService.groupsControllerJoin(groupId).pipe(
-      tap(group => {
-        this.groups.update(groups => groups.concat(group));
-      })
+      tap((group) => {
+        this.groups.update((groups) => groups.concat(group));
+      }),
     );
   }
 
   leaveGroup(groupId: string): Observable<GroupResponseDTO> {
     return this.groupsService.groupsControllerLeave(groupId).pipe(
-      tap(group => {
-        this.groups.update(groups => groups.filter(g => g.id !== group.id));
-      })
+      tap((group) => {
+        this.groups.update((groups) => groups.filter((g) => g.id !== group.id));
+      }),
     );
   }
 }

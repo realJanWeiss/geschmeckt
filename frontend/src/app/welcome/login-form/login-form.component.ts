@@ -1,5 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { AuthService } from 'src/app/api/auth.service';
@@ -8,13 +13,16 @@ import { AuthService } from 'src/app/api/auth.service';
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.scss'],
-  imports: [IonicModule, ReactiveFormsModule]
+  imports: [IonicModule, ReactiveFormsModule],
 })
-export class LoginFormComponent  implements OnInit {
+export class LoginFormComponent implements OnInit {
   @Output() passed = new EventEmitter<void>();
   loginForm!: FormGroup;
 
-  constructor(private readonly authService: AuthService, private readonly router: Router) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router,
+  ) {}
 
   ngOnInit() {
     this.loginForm = new FormGroup({
