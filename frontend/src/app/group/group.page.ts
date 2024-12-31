@@ -16,12 +16,14 @@ import { addOutline } from 'ionicons/icons';
 import { CreateGroupModalComponent } from './create-group-modal/create-group-modal.component';
 import { GroupService } from '../api/group.service';
 import { GroupResponseDTO } from 'src/api-client';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-group',
   templateUrl: 'group.page.html',
   styleUrls: ['group.page.scss'],
   imports: [
+    RouterModule,
     IonButton,
     IonIcon,
     IonList,
