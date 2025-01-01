@@ -27,7 +27,7 @@ import { RatingEntity } from './ratings/entities/rating.entity';
       synchronize: true,
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '..', 'static'),
+      rootPath: join(__dirname, '..', 'static'),
       serveRoot: '/static',
     }),
     UsersModule,

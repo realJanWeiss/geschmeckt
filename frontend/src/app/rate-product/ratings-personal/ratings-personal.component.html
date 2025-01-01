@@ -1,7 +1,12 @@
 @if (status === "DONE") {
-  @for (i of [1, 2, 3, 4, 5]; track i) {
-    <ion-button>
-      <ion-icon slot="icon-only" name="star-outline" />
-    </ion-button>
-  }
+  <div class="ion-text-center">
+    @for (i of [1, 2, 3, 4, 5]; track i) {
+      <ion-button fill="clear" shape="round" (click)="rateProduct(i)">
+        <ion-icon
+          slot="icon-only"
+          [name]="i <= displayedRating() ? 'star' : 'star-outline'"
+        />
+      </ion-button>
+    }
+  </div>
 }

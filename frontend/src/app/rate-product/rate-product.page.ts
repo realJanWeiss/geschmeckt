@@ -35,7 +35,7 @@ export class RateProductPage implements OnInit {
   readonly product = signal<ProductResponseDTO | undefined>(undefined);
   readonly productImage = computed<string | undefined>(() => {
     if (!this.product()) return;
-    return `${environment.baseUrlApi}/products/${this.product()!.id}.jpg`;
+    return `${environment.baseUrlApi}/static/${this.product()!.id}.jpg`;
   });
   status?: 'PENDING' | 'NOT_FOUND' | 'FAILED' = 'PENDING';
 

@@ -5,6 +5,7 @@ import { GetUser } from '@/authentication/decorators/user.decorator';
 import { RequireAuth } from '@/authentication/decorators/require-auth.decorator';
 import { RatingResponseDTO } from './dtos/response/rating.response.dto';
 import { ApiOkResponse } from '@nestjs/swagger';
+import { RatingRequestDTO } from './dtos/request/rating.request.dto';
 
 @Controller('ratings')
 export class RatingsController {
@@ -15,10 +16,14 @@ export class RatingsController {
   @ApiOkResponse({ type: RatingResponseDTO })
   public async rate(
     @Param('productId') productId: string,
-    @Body('rating') rating: number,
+    @Body() ratingRequestDTO: RatingRequestDTO,
     @GetUser() user: UserEntity,
   ): Promise<RatingResponseDTO> {
-    return this.ratingsService.rate(user.id, productId, rating);
+    return this.ratingsService.rate(
+      user.id,
+      productId,
+      ratingRequestDTO.rating,
+    );
   }
 
   @Get('products/:productId')
@@ -33,11 +38,12 @@ export class RatingsController {
 
   @Get('groups/:groupId/:productId')
   @RequireAuth()
+  @ApiOkResponse({ type: [RatingResponseDTO] })
   public async getRatings(
     @Param('groupId') groupId: string,
     @Param('productId') productId: string,
     @GetUser() user: UserEntity,
-  ) {
+  ): Promise<RatingResponseDTO[]> {
     return this.ratingsService.getRatingByGroupByProduct(
       groupId,
       productId,

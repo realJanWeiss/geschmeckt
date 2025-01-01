@@ -31,7 +31,9 @@ bootstrapApplication(AppComponent, {
     }),
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideHttpClient(),
-    provideIonicAngular(),
+    provideIonicAngular({
+      toastDuration: 2500,
+    }),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     {
       provide: Configuration,

@@ -18,8 +18,9 @@ export class RatingsService {
     userId: string,
     productId: string,
   ): Promise<RatingResponseDTO> {
-    const rating = await this.ratingsRepository.findOne({
-      where: { user: { id: userId }, product: { id: productId } },
+    const rating = await this.ratingsRepository.findOneBy({
+      user: { id: userId },
+      product: { id: productId },
     });
     if (!rating) {
       throw new NotFoundException();
@@ -42,23 +43,24 @@ export class RatingsService {
     return newRating.mapToResponseDTO();
   }
 
-  // TODO return RatingReturnDTO instead
   async getRatingByGroupByProduct(
     groupId: string,
     productId: string,
     userId: string,
-  ): Promise<RatingEntity[]> {
+  ): Promise<RatingResponseDTO[]> {
     const group = await this.groupsService.getGroupEntity(groupId);
 
     if (!group.users.some((user) => user.id === userId)) {
       throw new GroupNotFoundException();
     }
 
-    return await this.ratingsRepository.find({
-      where: {
-        product: { id: productId },
-        user: In(group.users.map((u) => u.id)),
-      },
-    });
+    return (
+      await this.ratingsRepository.find({
+        where: {
+          product: { id: productId },
+          user: In(group.users.map((u) => u.id)),
+        },
+      })
+    ).map((rating) => rating.mapToResponseDTO());
   }
 }
