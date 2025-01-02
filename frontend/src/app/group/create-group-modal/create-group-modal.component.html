@@ -12,13 +12,19 @@
             labelPlacement="floating"
             label="Name"
             formControlName="name"
+            data-test="create-group-name"
             required
           />
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-button expand="block" type="submit">Create</ion-button>
+          <ion-button
+            expand="block"
+            type="submit"
+            data-test="create-group-submit"
+            >Create</ion-button
+          >
         </ion-col>
       </ion-row>
     </ion-grid>

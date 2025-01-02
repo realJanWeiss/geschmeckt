@@ -21,7 +21,7 @@
     <ion-list>
       <ion-list-header>Members</ion-list-header>
       @for (user of group()!.users; track user.id) {
-        <ion-item>
+        <ion-item data-test="group-detail-member">
           <ion-label>
             <h2>{{ user.name }}</h2>
           </ion-label>
@@ -32,7 +32,12 @@
       @if (isMember()) {
         <ion-row>
           <ion-col>
-            <ion-button fill="clear" expand="block" (click)="invite()">
+            <ion-button
+              fill="clear"
+              expand="block"
+              data-test="group-detail-invite"
+              (click)="invite()"
+            >
               <ion-icon
                 aria-hidden="true"
                 slot="start"
@@ -48,6 +53,7 @@
               fill="clear"
               color="danger"
               expand="block"
+              data-test="group-detail-leave"
               (click)="requestLeaveGroup()"
             >
               <ion-icon aria-hidden="true" slot="start" name="exit-outline" />
@@ -58,7 +64,11 @@
       } @else {
         <ion-row>
           <ion-col>
-            <ion-button expand="block" (click)="joinGroup()">
+            <ion-button
+              expand="block"
+              data-test="group-detail-join"
+              (click)="joinGroup()"
+            >
               <ion-icon
                 aria-hidden="true"
                 slot="start"

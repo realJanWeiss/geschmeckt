@@ -24,7 +24,11 @@
           <ion-label>Groups you are in</ion-label>
         </ion-list-header>
         @for (group of groupService.groups(); track group.id) {
-          <ion-item [routerLink]="['/home/group', group.id]" button>
+          <ion-item
+            [routerLink]="['/home/group', group.id]"
+            button
+            data-test="group-item"
+          >
             <ion-label>{{ group.name }}</ion-label>
           </ion-item>
         }
@@ -32,7 +36,12 @@
     }
 
     <div class="ion-text-center ion-padding">
-      <ion-button fill="clear" expand="block" (click)="createGroup()">
+      <ion-button
+        fill="clear"
+        expand="block"
+        data-test="group-create"
+        (click)="createGroup()"
+      >
         <ion-icon slot="start" name="add-outline"></ion-icon>
         Create New Group
       </ion-button>

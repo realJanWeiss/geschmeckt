@@ -80,7 +80,7 @@ export class GroupsService {
     const group = await this.getGroupEntity(groupId);
 
     const foundIndex = group.users.findIndex((u) => u.id === user.id);
-    group.users.splice(foundIndex);
+    group.users.splice(foundIndex, 1);
     await this.groupRepository.save(group);
     return group.mapToResponseDTO();
   }

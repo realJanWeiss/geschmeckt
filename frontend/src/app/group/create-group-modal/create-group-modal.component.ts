@@ -13,7 +13,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { GroupsService } from 'src/api-client';
+import { GroupService } from 'src/app/api/group.service';
 
 @Component({
   selector: 'app-create-group-modal',
@@ -34,7 +34,7 @@ export class CreateGroupModalComponent implements OnInit {
   @Output() isOpenChange = new EventEmitter<boolean>();
   groupCreationForm!: FormGroup;
 
-  constructor(private readonly groupsService: GroupsService) {}
+  constructor(private readonly groupService: GroupService) {}
 
   ngOnInit() {
     this.groupCreationForm = new FormGroup({
@@ -45,7 +45,7 @@ export class CreateGroupModalComponent implements OnInit {
   onSubmit() {
     if (this.groupCreationForm.valid) {
       const { name } = this.groupCreationForm.value;
-      this.groupsService.groupsControllerCreate({ name }).subscribe(() => {
+      this.groupService.createGroup(name).subscribe(() => {
         this.isOpenChange.emit(false);
       });
     }

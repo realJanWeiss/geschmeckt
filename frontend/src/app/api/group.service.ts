@@ -21,6 +21,14 @@ export class GroupService {
     );
   }
 
+  createGroup(name: string): Observable<GroupResponseDTO> {
+    return this.groupsService.groupsControllerCreate({ name }).pipe(
+      tap((group) => {
+        this.groups.update((groups) => groups.concat(group));
+      }),
+    );
+  }
+
   joinGroup(groupId: string): Observable<GroupResponseDTO> {
     return this.groupsService.groupsControllerJoin(groupId).pipe(
       tap((group) => {
