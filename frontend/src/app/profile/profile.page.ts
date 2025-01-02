@@ -52,8 +52,10 @@ export class ProfilePage implements OnInit {
   }
 
   logout(): void {
-    this.authService.logout().subscribe(() => {
-      this.router.navigate(['/']);
+    this.authService.logout().subscribe({
+      complete: () => {
+        this.router.navigate(['/']);
+      },
     });
   }
 }

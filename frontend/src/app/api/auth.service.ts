@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { mergeMap, Observable, tap } from 'rxjs';
+import { catchError, EMPTY, finalize, from, map, Observable, tap } from 'rxjs';
 import {
   AuthenticationService,
   LoginRequestDTO,
@@ -7,6 +7,7 @@ import {
   UserResponseDTO,
 } from 'src/api-client';
 import { TokenService } from './token.service';
+import { HttpStatusCode } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -45,8 +46,16 @@ export class AuthService {
 
   public logout(): Observable<void> {
     return this.authenticationService.authenticationControllerLogout().pipe(
-      mergeMap(() => {
-        return this.tokenService.removeToken();
+      catchError((error) => {
+        if (error.status === HttpStatusCode.Unauthorized) {
+          return EMPTY;
+        } else {
+          throw error;
+        }
+      }),
+      map(() => undefined),
+      finalize(() => {
+        return from(this.tokenService.removeToken());
       }),
     );
   }
