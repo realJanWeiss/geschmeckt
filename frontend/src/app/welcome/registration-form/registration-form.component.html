@@ -6,6 +6,7 @@
           fill="outline"
           labelPlacement="floating"
           label="Name"
+          data-test="registration-name"
           formControlName="name"
           required
         />
@@ -17,6 +18,7 @@
           fill="outline"
           labelPlacement="floating"
           label="E-Mail"
+          data-test="registration-email"
           formControlName="email"
           type="email"
           inputmode="email"
@@ -30,6 +32,7 @@
           fill="outline"
           labelPlacement="floating"
           label="Password"
+          data-test="registration-password"
           type="password"
           formControlName="password"
           required
@@ -40,7 +43,9 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-button expand="block" type="submit">Register</ion-button>
+        <ion-button expand="block" type="submit" data-test="registration-submit"
+          >Register</ion-button
+        >
       </ion-col>
     </ion-row>
   </ion-grid>

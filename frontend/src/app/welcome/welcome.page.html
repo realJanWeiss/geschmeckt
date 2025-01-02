@@ -6,7 +6,12 @@
   <ion-item-divider></ion-item-divider>
 
   <div class="ion-text-center">
-    <ion-button (click)="isLoggingIn = true" fill="clear">or log in</ion-button>
+    <ion-button
+      fill="clear"
+      data-test="welcome-login"
+      (click)="isLoggingIn = true"
+      >or log in</ion-button
+    >
   </div>
   <app-modal [(isOpen)]="isLoggingIn" titleText="Login">
     <app-login-form (passed)="closeLoginModal()" />

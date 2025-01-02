@@ -14,7 +14,7 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <ion-card class="ion-no-margin">
+        <ion-card class="ion-no-margin" data-test="profile-card">
           <ion-card-header>
             <ion-card-title>😋</ion-card-title>
           </ion-card-header>
@@ -31,6 +31,7 @@
           class="ion-no-margin"
           fill="clear"
           color="danger"
+          data-test="profile-logout"
           (click)="logout()"
         >
           <ion-icon

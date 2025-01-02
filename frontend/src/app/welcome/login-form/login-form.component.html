@@ -6,6 +6,7 @@
           fill="outline"
           labelPlacement="floating"
           label="E-Mail"
+          data-test="login-email"
           formControlName="email"
           type="email"
           inputmode="email"
@@ -19,6 +20,7 @@
           fill="outline"
           labelPlacement="floating"
           label="Password"
+          data-test="login-password"
           type="password"
           formControlName="password"
           required
@@ -29,7 +31,9 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-button expand="block" type="submit">Login</ion-button>
+        <ion-button expand="block" type="submit" data-test="login-submit"
+          >Login</ion-button
+        >
       </ion-col>
     </ion-row>
   </ion-grid>
