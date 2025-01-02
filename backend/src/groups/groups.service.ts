@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { GroupEntity } from './entities/group.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -38,7 +34,7 @@ export class GroupsService {
   }
 
   async getGroupsByUser(user: UserResponseDTO): Promise<GroupResponseDTO[]> {
-    const groups = await this.groupRepository.find({ where: { users: user } });
+    const groups = await this.groupRepository.findBy({ users: user });
     return groups.map((group) => group.mapToResponseDTO());
   }
 
@@ -57,10 +53,7 @@ export class GroupsService {
   }
 
   async deleteGroup(groupId: string, userId: string): Promise<void> {
-    const group = await this.groupRepository.findOneBy({ id: groupId });
-    if (!group) {
-      throw new NotFoundException('Group not found');
-    }
+    const group = await this.getGroupEntity(groupId);
     if (group.users.some((user) => user.id === userId)) {
       throw new BadRequestException('User not in group');
     }

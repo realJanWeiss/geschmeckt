@@ -13,6 +13,7 @@ import { ProductResponseDTO, ProductsService } from 'src/api-client';
 import { catchError, EMPTY } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { RatingsPersonalComponent } from './ratings-personal/ratings-personal.component';
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
   selector: 'app-rate-product',
@@ -50,7 +51,7 @@ export class RateProductPage implements OnInit {
       .productsControllerGetProduct(this.productEan)
       .pipe(
         catchError((error) => {
-          if (error.status === 404) {
+          if (error.status === HttpStatusCode.NotFound) {
             this.status = 'NOT_FOUND';
           } else {
             this.status = 'FAILED';

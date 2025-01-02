@@ -24,7 +24,11 @@
     </p>
   } @else {
     <h1>{{ product()!.name }}</h1>
-    <ion-img [src]="productImage()" alt="product image" />
+    <ion-img
+      class="rate-product__image"
+      [src]="productImage()"
+      alt="product image"
+    />
     <app-ratings-personal [productId]="product()!.id" />
   }
 </ion-content>

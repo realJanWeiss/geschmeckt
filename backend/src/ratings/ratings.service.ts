@@ -55,11 +55,9 @@ export class RatingsService {
     }
 
     return (
-      await this.ratingsRepository.find({
-        where: {
-          product: { id: productId },
-          user: In(group.users.map((u) => u.id)),
-        },
+      await this.ratingsRepository.findBy({
+        product: { id: productId },
+        user: In(group.users.map((u) => u.id)),
       })
     ).map((rating) => rating.mapToResponseDTO());
   }
