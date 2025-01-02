@@ -14,6 +14,7 @@ import { catchError, EMPTY } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { RatingsPersonalComponent } from './ratings-personal/ratings-personal.component';
 import { HttpStatusCode } from '@angular/common/http';
+import { RatingsGroupComponent } from './ratings-group/ratings-group.component';
 
 @Component({
   selector: 'app-rate-product',
@@ -22,6 +23,7 @@ import { HttpStatusCode } from '@angular/common/http';
   standalone: true,
   imports: [
     RatingsPersonalComponent,
+    RatingsGroupComponent,
     IonImg,
     IonContent,
     IonHeader,

@@ -3,6 +3,7 @@ import { catchError, EMPTY, finalize, from, map, Observable, tap } from 'rxjs';
 import {
   AuthenticationService,
   LoginRequestDTO,
+  RegisterResponseDTO,
   UserRequestDTO,
   UserResponseDTO,
 } from 'src/api-client';
@@ -24,12 +25,15 @@ export class AuthService {
     return Boolean(this.tokenService.getToken());
   }
 
-  public registerUser(userRequestDTO: UserRequestDTO): Observable<string> {
+  public registerUser(
+    userRequestDTO: UserRequestDTO,
+  ): Observable<RegisterResponseDTO> {
     return this.authenticationService
       .authenticationControllerRegister(userRequestDTO)
       .pipe(
-        tap((jwt) => {
-          this.tokenService.setToken(jwt);
+        tap((registerResponseDTO) => {
+          this.tokenService.setToken(registerResponseDTO.jwt);
+          this.user.set(registerResponseDTO.user);
         }),
       );
   }

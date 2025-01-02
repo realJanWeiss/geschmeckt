@@ -1,5 +1,5 @@
 @if (status === "DONE") {
-  <div class="ion-text-center">
+  <div class="ion-text-center" data-test="ratings-personal">
     @for (i of [1, 2, 3, 4, 5]; track i) {
       <ion-button fill="clear" shape="round" (click)="rateProduct(i)">
         <ion-icon

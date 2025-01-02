@@ -3,3 +3,8 @@ interface User {
     mail: string;
     password: string;
 }
+
+interface RegisteredUser extends User {
+    id: string;
+    token: string;
+}

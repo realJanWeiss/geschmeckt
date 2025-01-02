@@ -16,6 +16,7 @@ export const routes: Routes = [
   },
   {
     path: 'rate-product',
-    loadComponent: () => import('./rate-product/rate-product.page').then( m => m.RateProductPage)
+    loadComponent: () =>
+      import('./rate-product/rate-product.page').then((m) => m.RateProductPage),
   },
 ];

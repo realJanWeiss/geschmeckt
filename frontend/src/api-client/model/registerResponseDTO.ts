@@ -10,8 +10,8 @@
 import { UserResponseDTO } from './userResponseDTO';
 
 
-export interface RatingResponseDTO { 
-    rating: number;
+export interface RegisterResponseDTO { 
     user: UserResponseDTO;
+    jwt: string;
 }
 

@@ -32,18 +32,18 @@ Cypress.Commands.add('getBySel', (value) => {
   return cy.get(`[data-test=${value}]`)
 })
 
-Cypress.Commands.add('generateNewUser', (key = 'default'): void => {
+Cypress.Commands.add('generateNewUser', (userKey = 'default'): void => {
   const uuid = crypto.randomUUID()
   const user: User = {
     name: `Cypress ${uuid}`,
     mail: `${uuid}@cypress.test`,
     password: 'Password123!',
   };
-  cy.wrap(user).as(`user-${key}`);
+  cy.wrap(user).as(`user-${userKey}`);
 })
 
-Cypress.Commands.add('getUser', (key = 'default') => {
-  return cy.get(`@user-${key}`).then((user) => {
+Cypress.Commands.add('getUser', (userKey = 'default') => {
+  return cy.get(`@user-${userKey}`).then((user) => {
     return user as unknown as User;
   });
 });
@@ -60,18 +60,66 @@ Cypress.Commands.add('register', (userKey = 'default') => {
       },
     }).then((response) => {
       expect(response.status).to.eq(201)
-      cy.log(response.body);
-      cy.wrap(response.body).as(`user-jwt-${userKey}`);
+      cy.wrap({
+        name: user.name,
+        mail: user.mail,
+        password: user.password,
+        id: response.body.user.id,
+        token: response.body.jwt
+      } satisfies RegisteredUser).as(`registered-user-${userKey}`);
     });
   });
 });
 
+Cypress.Commands.add('getRegisteredUser', (userKey = 'default') => {
+  return cy.get(`@registered-user-${userKey}`).then((user) => {
+    return user as unknown as RegisteredUser;
+  });
+});
+
+
 Cypress.Commands.add('login', (userKey = 'default') => {
-  cy.get(`@user-jwt-${userKey}`).then((jwt) => {
+  cy.getRegisteredUser(userKey).then((user) => {
     storage.create().then(() => {
-      storage.set('jwt', jwt);
+      storage.set('jwt', user.token);
     });
   })
+});
+
+Cypress.Commands.add('createGroup', (name: string, userKeys: string[]) => {
+  const userData: RegisteredUser[] = [];
+  for (const user of userKeys) {
+    cy.getRegisteredUser(user).then((user) => {
+      userData.push(user);
+    });
+  }
+
+  cy.wrap(userData).then(users => {
+    cy.request({
+      method: 'POST',
+      url: 'http://localhost:3000/groups',
+      body: {
+        name: name,
+      },
+      headers: {
+        Authorization: `Bearer ${users[0].token}`,
+      }
+    }).then((response) => {
+      const groupId = response.body.id;
+      for (const user of users) {
+        cy.request({
+          method: 'POST',
+          url: `http://localhost:3000/groups/${groupId}/join`,
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          }
+        }).then((response) => {
+          expect(response.status).to.eq(201);
+        });
+      }
+    });
+  });
+
 });
 
 Cypress.Commands.add('logout', () => {
@@ -86,11 +134,13 @@ declare global {
        * @example cy.getBySel('greeting')
        */
       getBySel(value: string): Chainable<JQuery<HTMLElement>>;
-      generateNewUser(key?: string): void;
-      getUser(key?: string): Chainable<User>;
+      generateNewUser(userKey?: string): void;
+      getUser(userKey?: string): Chainable<User>;
+      getRegisteredUser(userKey?: string): Chainable<RegisteredUser>;
       register(userKey?: string): void;
       login(userKey?: string): void;
       logout(): void;
+      createGroup(name: string, userKeys: string[]): void;
     }
   }
 }

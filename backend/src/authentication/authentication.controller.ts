@@ -7,6 +7,7 @@ import { LoginRequestDTO } from '@/users/dtos/request/login.request.dto';
 import { UserResponseDTO } from '@/users/dtos/response/user.response.dto';
 import { GetUser } from './decorators/user.decorator';
 import { RequireAuth } from './decorators/require-auth.decorator';
+import { RegisterResponseDTO } from './dtos/response/register.response.dto';
 
 @Controller('authentication')
 export class AuthenticationController {
@@ -15,15 +16,9 @@ export class AuthenticationController {
   @Post('/register')
   @ApiOkResponse({
     description: 'Returns the JWT.',
-    content: {
-      'text/plain': {
-        schema: {
-          type: 'string',
-        },
-      },
-    },
+    type: RegisterResponseDTO,
   })
-  public register(@Body() body: UserRequestDTO): Promise<string> {
+  public register(@Body() body: UserRequestDTO): Promise<RegisterResponseDTO> {
     return this.authenticationService.register(body);
   }
 

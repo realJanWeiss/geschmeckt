@@ -1,0 +1,20 @@
+@if (ratings()) {
+  @for (groupedRatings of ratings(); track groupedRatings.id) {
+    <ion-item-group data-test="ratings-group">
+      <ion-item-divider>
+        <ion-label>{{ groupedRatings.name }}</ion-label>
+      </ion-item-divider>
+      @if (groupedRatings.ratings.length === 0) {
+        <ion-item>
+          <ion-label>No ratings yet</ion-label>
+        </ion-item>
+      }
+      @for (rating of groupedRatings.ratings; track rating) {
+        <ion-item data-test="ratings-group-rating">
+          <ion-label>{{ rating.user.name }}</ion-label>
+          <ion-badge slot="end">{{ rating.rating }}</ion-badge>
+        </ion-item>
+      }
+    </ion-item-group>
+  }
+}

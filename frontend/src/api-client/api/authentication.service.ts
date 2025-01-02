@@ -19,6 +19,8 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { LoginRequestDTO } from '../model/loginRequestDTO';
 // @ts-ignore
+import { RegisterResponseDTO } from '../model/registerResponseDTO';
+// @ts-ignore
 import { UserRequestDTO } from '../model/userRequestDTO';
 // @ts-ignore
 import { UserResponseDTO } from '../model/userResponseDTO';
@@ -304,10 +306,10 @@ export class AuthenticationService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public authenticationControllerRegister(userRequestDTO: UserRequestDTO, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext, transferCache?: boolean}): Observable<string>;
-    public authenticationControllerRegister(userRequestDTO: UserRequestDTO, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<string>>;
-    public authenticationControllerRegister(userRequestDTO: UserRequestDTO, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<string>>;
-    public authenticationControllerRegister(userRequestDTO: UserRequestDTO, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public authenticationControllerRegister(userRequestDTO: UserRequestDTO, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<RegisterResponseDTO>;
+    public authenticationControllerRegister(userRequestDTO: UserRequestDTO, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RegisterResponseDTO>>;
+    public authenticationControllerRegister(userRequestDTO: UserRequestDTO, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RegisterResponseDTO>>;
+    public authenticationControllerRegister(userRequestDTO: UserRequestDTO, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (userRequestDTO === null || userRequestDTO === undefined) {
             throw new Error('Required parameter userRequestDTO was null or undefined when calling authenticationControllerRegister.');
         }
@@ -318,7 +320,7 @@ export class AuthenticationService {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
-                'text/plain'
+                'application/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -358,7 +360,7 @@ export class AuthenticationService {
         }
 
         let localVarPath = `/authentication/register`;
-        return this.httpClient.request<string>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<RegisterResponseDTO>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: userRequestDTO,

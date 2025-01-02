@@ -8,6 +8,7 @@ import { UserRequestDTO } from '@/users/dtos/request/user.request.dto';
 import { password_validate } from '@/users/password.utils';
 import { AuthenticationError } from './errors';
 import { LoginRequestDTO } from '@/users/dtos/request/login.request.dto';
+import { RegisterResponseDTO } from './dtos/response/register.response.dto';
 
 @Injectable()
 export class AuthenticationService {
@@ -20,9 +21,14 @@ export class AuthenticationService {
     private readonly JWTService: JwtService,
   ) {}
 
-  public async register(userRequestDTO: UserRequestDTO): Promise<string> {
+  public async register(
+    userRequestDTO: UserRequestDTO,
+  ): Promise<RegisterResponseDTO> {
     const user = await this.usersService.createUser(userRequestDTO);
-    return await this.JWTService.signAsync({ userID: user.id });
+    return {
+      jwt: await this.JWTService.signAsync({ userID: user.id }),
+      user,
+    };
   }
 
   public async login(loginRequestDTO: LoginRequestDTO): Promise<string> {

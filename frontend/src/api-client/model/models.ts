@@ -4,5 +4,6 @@ export * from './loginRequestDTO';
 export * from './productResponseDTO';
 export * from './ratingRequestDTO';
 export * from './ratingResponseDTO';
+export * from './registerResponseDTO';
 export * from './userRequestDTO';
 export * from './userResponseDTO';

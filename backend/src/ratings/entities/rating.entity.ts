@@ -25,6 +25,7 @@ export class RatingEntity {
   mapToResponseDTO(): RatingResponseDTO {
     return {
       rating: this.rating,
+      user: this.user?.mapToResponseDTO(),
     };
   }
 }

@@ -17,6 +17,7 @@ model/models.ts
 model/productResponseDTO.ts
 model/ratingRequestDTO.ts
 model/ratingResponseDTO.ts
+model/registerResponseDTO.ts
 model/userRequestDTO.ts
 model/userResponseDTO.ts
 param.ts
