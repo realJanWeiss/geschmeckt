@@ -13,7 +13,7 @@ config({
 });
 
 export const typeormConfig: TypeOrmModuleOptions = {
-  type: 'mysql',
+  type: 'mariadb',
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
   username: process.env.DB_USER,
