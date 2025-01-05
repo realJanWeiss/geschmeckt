@@ -11,7 +11,7 @@ import {
 } from '@ionic/angular/standalone';
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
-import { provideHttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Configuration } from './api-client';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import {
@@ -22,15 +22,16 @@ import {
 import { Drivers } from '@ionic/storage';
 import { TokenService } from './app/api/token.service';
 import { environment } from './environments/environment';
+import { HttpClientCapacitorAdapter } from './app/http-client-capacitor-adapter.service';
 
 bootstrapApplication(AppComponent, {
   providers: [
+    { provide: HttpClient, useClass: HttpClientCapacitorAdapter },
     provideAppInitializer(() => {
       const tokenService = inject(TokenService);
       return tokenService.init();
     }),
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideHttpClient(),
     provideIonicAngular({
       toastDuration: 2500,
     }),
