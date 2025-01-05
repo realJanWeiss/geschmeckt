@@ -37,7 +37,9 @@ export class UserEntity {
   })
   groups: GroupEntity[];
 
-  @OneToMany(() => RatingEntity, (rating) => rating.user)
+  @OneToMany(() => RatingEntity, (rating) => rating.user, {
+    cascade: true,
+  })
   ratings: RatingEntity[];
 
   @CreateDateColumn()

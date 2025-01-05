@@ -15,7 +15,9 @@ export class ProductEntity {
   @Column()
   name: string;
 
-  @OneToMany(() => RatingEntity, (rating) => rating.user)
+  @OneToMany(() => RatingEntity, (rating) => rating.user, {
+    cascade: true,
+  })
   ratings: RatingEntity[];
 
   mapToResponseDTO(): ProductResponseDTO {

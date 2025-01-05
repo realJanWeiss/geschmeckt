@@ -11,11 +11,13 @@ export class RatingEntity {
   @PrimaryColumn({ name: 'productId', type: 'uuid' })
   productId: string;
 
-  @ManyToOne(() => UserEntity, (user) => user.ratings)
+  @ManyToOne(() => UserEntity, (user) => user.ratings, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   user: UserEntity;
 
-  @ManyToOne(() => ProductEntity, (product) => product.ratings)
+  @ManyToOne(() => ProductEntity, (product) => product.ratings, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'productId' })
   product: ProductEntity;
 

@@ -21,16 +21,27 @@ describe('rate', () => {
         cy.wait('@rateProduct');
     }
 
-    const getRatingsGroup = (groupName: string, expectedCount: number) => {
-        return cy.getBySel('ratings-group').should('have.length', expectedCount).filter((_index, element) => {
+    const getRatingsGroup = (groupName: string, expectedRatingGroupCount: number) => {
+        return cy.getBySel('ratings-group').should('have.length', expectedRatingGroupCount).filter((_index, element) => {
             return element.innerText.includes(groupName);
         })
           .first();
     }
 
+    const checkRatingGroup = (groupName: string, expectedRatingGroupCount: number, ratings: { userName: string; rating: string }[]) => {
+        getRatingsGroup(groupName, expectedRatingGroupCount).then(ratingGroup => {
+            for (const rating of ratings) {
+                cy.wrap(ratingGroup).contains('[data-test="ratings-group-rating"]', rating.userName)
+                        .find('ion-badge')
+                        .should('contain', rating.rating);
+            }
+        })
+        
+    }
+
     it ('can rate a product and see ratings of group members', () => {
-        const productEan = '123';
-        const productId = 'd0c9aeba-d0dc-43f6-a079-566e59255082';
+        const productEan = '9001475012360';
+        const productId = 'f0746b51-fe8c-461f-b3b5-714a7f47b2b1';
 
         const group1 = 'Cypress Test Group 1';
         const group2 = 'Cypress Test Group 2';
@@ -48,9 +59,11 @@ describe('rate', () => {
 
         cy.login('b');
         goToProductPage(productEan);
-        getRatingsGroup(group1, 1);
         cy.getUser('a').then((user) => {
-            cy.getBySel('ratings-group-rating').should('have.length', 1).contains(user.name).should('contain', '1');
+            checkRatingGroup(group1, 1, [{
+                userName: user.name,
+                rating: '1'
+            }]);
         });
         performRating(productId,3);
 
@@ -59,11 +72,13 @@ describe('rate', () => {
         cy.login('c');
         goToProductPage(productEan);
         getRatingsGroup(group2, 2).contains('No ratings yet').should('exist');
-        cy.getUser('a').then((user) => {
-            cy.getBySel('ratings-group-rating').should('have.length', 2).contains(user.name).should('contain', '1');
-        });
-        cy.getUser('b').then((user) => {
-            cy.getBySel('ratings-group-rating').contains(user.name).should('contain', '3');
+        cy.getUser('a').then((userA) => {
+            cy.getUser('b').then((userB) => {
+                checkRatingGroup(group1, 2, [
+                    { userName: userA.name, rating: '1' },
+                    { userName: userB.name, rating: '3' }
+                ]);
+            });
         });
     })
 })

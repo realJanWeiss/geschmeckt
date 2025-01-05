@@ -15,7 +15,7 @@ import { typeormConfig } from '../typeorm.config';
   imports: [
     TypeOrmModule.forRoot(typeormConfig),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'static'),
+      rootPath: join(__dirname, '..', '..', 'static'),
       serveRoot: '/static',
     }),
     UsersModule,

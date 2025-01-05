@@ -1,6 +1,5 @@
 # compiled output
 /dist
-/node_modules
 /build
 
 # Logs
@@ -11,9 +10,6 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
-
-# OS
-.DS_Store
 
 # Tests
 /coverage
