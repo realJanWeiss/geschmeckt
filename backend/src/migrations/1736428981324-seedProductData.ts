@@ -1,7 +1,7 @@
 import { ProductEntity } from '@/products/entities/product.entity';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class SeedProductData1736072946464 implements MigrationInterface {
+export class SeedProductData11736428981324 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     const product = new ProductEntity();
     product.id = 'f0746b51-fe8c-461f-b3b5-714a7f47b2b1';

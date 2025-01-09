@@ -21,7 +21,7 @@ export class RatingEntity {
   @JoinColumn({ name: 'productId' })
   product: ProductEntity;
 
-  @Column({ type: 'tinyint' })
+  @Column({ type: 'smallint' })
   rating: number;
 
   mapToResponseDTO(): RatingResponseDTO {
