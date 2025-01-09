@@ -1,2 +1,7 @@
 node_modules
 .env
+test
+**.spec.ts
+.eslintrc.js
+.prettierrc
+README.md
