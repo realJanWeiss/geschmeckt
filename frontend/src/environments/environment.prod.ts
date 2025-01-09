@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   baseUrl: '',
-  baseUrlApi: 'http://10.0.2.2:3000',
+  baseUrlApi: 'https://it241509-10558.node.fhstp.cc',
 };
