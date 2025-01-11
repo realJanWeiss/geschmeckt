@@ -7,12 +7,22 @@ $ npm install
 
 ## Compile and run the project
 
+Make sure that the development database is running. You can create one with Docker by using the official Postgres image. The database access variables are defined in the `.development.env` or `.env` (if the application is run in production mode). To boot up the application in development mode, you can use the following configuration for the Postgres Docker-image:
+
+```
+Port: 5432
+Environment variables:
+  - POSTGRES_PASSWORD: password
+  - POSTGRES_USER: user
+  - POSTGRES_DB: geschmeckt
+```
+
 ```bash
 # for regular development
 $ npm run start:dev
 
 # for regular development if you want to first run necessary migrations
-$ npm run start:prod
+$ npm run start:dev_mig
 ```
 
 ### Building database migrations
