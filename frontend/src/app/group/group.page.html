@@ -42,10 +42,25 @@
         data-test="group-create"
         (click)="createGroup()"
       >
-        <ion-icon slot="start" name="add-outline"></ion-icon>
+        <ion-icon slot="start" name="add-outline" />
         Create New Group
       </ion-button>
       <app-create-group-modal [(isOpen)]="isCreatingGroup" />
+
+      @if (!showingFindGroup) {
+        <ion-button
+          fill="clear"
+          expand="block"
+          (click)="showingFindGroup = true"
+        >
+          <ion-icon slot="start" name="search-outline" />
+          Join existing group
+        </ion-button>
+      }
     </div>
+
+    @if (showingFindGroup) {
+      <app-group-find-form />
+    }
   }
 </ion-content>

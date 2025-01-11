@@ -9,7 +9,9 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { catchError, EMPTY } from 'rxjs';
 import { AuthService } from 'src/app/api/auth.service';
+import { ToastController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-registration-form',
@@ -23,6 +25,7 @@ export class RegistrationFormComponent implements OnInit {
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router,
+    private readonly toastController: ToastController,
   ) {}
 
   ngOnInit() {
@@ -56,9 +59,24 @@ export class RegistrationFormComponent implements OnInit {
   async onSubmit() {
     if (this.registrationForm.valid) {
       const { name, email, password } = this.registrationForm.value;
-      this.authService.registerUser({ name, email, password }).subscribe(() => {
-        this.router.navigate(['/home']);
-      });
+      this.authService
+        .registerUser({ name, email, password })
+        .pipe(
+          catchError(() => {
+            this.toastController
+              .create({
+                message: 'Cannot create user. Maybe E-Mail is already taken?',
+                position: 'bottom',
+              })
+              .then((toast) => {
+                toast.present();
+              });
+            return EMPTY;
+          }),
+        )
+        .subscribe(() => {
+          this.router.navigate(['/home']);
+        });
     }
   }
 }

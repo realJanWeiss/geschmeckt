@@ -12,11 +12,12 @@ import {
   IonContent,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { addOutline } from 'ionicons/icons';
+import { addOutline, searchOutline } from 'ionicons/icons';
 import { CreateGroupModalComponent } from './create-group-modal/create-group-modal.component';
 import { GroupService } from '../api/group.service';
 import { GroupResponseDTO } from 'src/api-client';
 import { RouterModule } from '@angular/router';
+import { GroupFindFormComponent } from './group-find-form/group-find-form.component';
 
 @Component({
   selector: 'app-group',
@@ -35,14 +36,16 @@ import { RouterModule } from '@angular/router';
     IonTitle,
     IonContent,
     CreateGroupModalComponent,
+    GroupFindFormComponent,
   ],
 })
 export class GroupPage implements OnInit {
   isCreatingGroup = false;
   showingGroup = signal<GroupResponseDTO | undefined>(undefined);
+  showingFindGroup = false;
 
   constructor(readonly groupService: GroupService) {
-    addIcons({ addOutline });
+    addIcons({ addOutline, searchOutline });
   }
 
   ngOnInit(): void {

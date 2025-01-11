@@ -80,5 +80,13 @@
         </ion-row>
       }
     </ion-grid>
+  } @else if (fetchError()) {
+    <p class="ion-padding">
+      @if (fetchError() === 404) {
+        Group not found
+      } @else {
+        An unexpected error occurred
+      }
+    </p>
   }
 </ion-content>

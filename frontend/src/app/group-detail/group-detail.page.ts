@@ -25,7 +25,7 @@ import { GroupResponseDTO, GroupsService } from 'src/api-client';
 import { GroupService } from '../api/group.service';
 import { addIcons } from 'ionicons';
 import { exitOutline, personAddOutline } from 'ionicons/icons';
-import { environment } from 'src/environments/environment';
+import { catchError, EMPTY } from 'rxjs';
 
 @Component({
   selector: 'app-group-detail',
@@ -55,6 +55,7 @@ import { environment } from 'src/environments/environment';
 export class GroupDetailPage implements OnInit {
   private groupId!: string;
   group = signal<GroupResponseDTO | undefined>(undefined);
+  fetchError = signal<number | undefined>(undefined);
   isMember: Signal<boolean>;
 
   constructor(
@@ -77,6 +78,12 @@ export class GroupDetailPage implements OnInit {
     this.groupId = this.route.snapshot.paramMap.get('id') as string;
     this.groupsService
       .groupsControllerGetGroupById(this.groupId)
+      .pipe(
+        catchError((error) => {
+          this.fetchError.set(error.status);
+          return EMPTY;
+        }),
+      )
       .subscribe((group) => {
         this.group.set(group);
       });
@@ -85,8 +92,9 @@ export class GroupDetailPage implements OnInit {
   async invite() {
     await Share.share({
       title: 'Join my Geschmeckt group',
-      text: "Let's share which groceries we like best!",
-      url: `${environment.baseUrl}/home/group/${this.groupId}`,
+      text:
+        "Let's share which groceries we like best!" +
+        `\n\nGroup access: ${this.groupId}`,
     });
   }
 

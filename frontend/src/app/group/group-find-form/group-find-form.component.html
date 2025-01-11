@@ -1,0 +1,15 @@
+<form class="ion-padding" [formGroup]="groupFindForm" (ngSubmit)="onSubmit()">
+  <ion-input
+    fill="outline"
+    labelPlacement="floating"
+    label="Group Secret"
+    data-test="group-find-form-input"
+    formControlName="secret"
+    type="text"
+    required
+  />
+  <ion-button class="ion-margin-top" expand="block" type="submit">
+    <ion-icon slot="start" name="search-outline" />
+    Search
+  </ion-button>
+</form>
