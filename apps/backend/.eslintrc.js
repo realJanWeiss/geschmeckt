@@ -1,4 +1,8 @@
 module.exports = {
+  root: true,
+  extends: [
+    '../../packages/shared-config/.eslintrc.js'
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: 'tsconfig.json',
@@ -6,11 +10,6 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['@typescript-eslint/eslint-plugin'],
-  extends: [
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
-  ],
-  root: true,
   env: {
     node: true,
     jest: true,
