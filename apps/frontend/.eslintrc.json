@@ -1,5 +1,8 @@
 {
   "root": true,
+  "extends": [
+    "../../packages/shared-config/.eslintrc.js"
+  ],
   "ignorePatterns": ["projects/**/*", "src/api-client/**/*"],
   "overrides": [
     {
@@ -11,8 +14,7 @@
       "extends": [
         "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates",
-        "plugin:prettier/recommended"
+        "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
         "@angular-eslint/component-class-suffix": [
